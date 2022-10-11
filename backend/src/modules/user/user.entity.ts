@@ -8,7 +8,6 @@ import {
 	UpdateDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import { Note } from '../note/note.entity';
 
 export enum EStatus {
 	ACTIVE = 'ACTIVE',
@@ -57,9 +56,6 @@ export class User extends BaseEntity {
 		length: 255,
 	})
 	refreshToken: string;
-
-	@OneToMany(() => Note, note => note.author)
-	notes: Note[];
 
 	@Column({
 		name: 'status',
