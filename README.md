@@ -1,4 +1,14 @@
-# NestJS Backend Container
+# Api para el Jardín Botánico De Ushuaia
+
+## Tecnologías
+
+**Proyecto NestJS (typescript)**
+
+### Librerias y otros
+
+- Typeorm
+- Swagger
+- Handlebars
 
 ## Dependencias
 
@@ -37,7 +47,7 @@ $ docker container exec -it prod/dev bash
 
 ```bash
 $ # Para usar las migraciones con TypeORM hay que configurar nuevamente la db en ormconfig.json
-$ cd backend
+$ cd api
 $ cp ormconfig.json.example ormconfig.json
 $ nano ormconfig.json
 $ # Ver migraciones aplicadas:
