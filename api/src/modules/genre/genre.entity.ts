@@ -6,14 +6,8 @@ import {
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm';
-import { Exclude } from 'class-transformer';
 
-export enum EStatus {
-	ACTIVE = 'ACTIVE',
-	INACTIVE = 'INACTIVE',
-}
-
-@Entity('genre')
+@Entity('genres')
 export class Genre extends BaseEntity {
 	@PrimaryGeneratedColumn('increment')
 	id: number;
@@ -27,11 +21,11 @@ export class Genre extends BaseEntity {
 	})
 	name: string;
 
-	@CreateDateColumn()
-	created: Date;
+	@CreateDateColumn({ name: 'created_at' })
+	createdAt: Date;
 
-	@UpdateDateColumn()
-	updated: Date;
+	@UpdateDateColumn({ name: 'updated_at' })
+	updatedAt: Date;
 
 	@Column({ name: 'deleted', type: 'boolean', default: false })
 	deleted: boolean;

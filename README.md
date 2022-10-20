@@ -53,7 +53,7 @@ $ nano ormconfig.json
 $ # Ver migraciones aplicadas:
 $ docker compose exec -it dev bash -c "npm run migration:show"
 $ # Generar migración
-$ docker compose exec -it dev bash -c "npm run migration:generate NOMBRE_MIGRACION"
+$ docker compose exec -it dev bash -c "npm run migration:generate --name=nombreMigracion"
 $ # Aplicar migraciones
 $ docker compose exec -it dev bash -c "npm run migration:run"
 ```
