@@ -26,8 +26,8 @@ async function bootstrap() {
 
 	// Configuración para swagger
 	const config = new DocumentBuilder()
-		.setTitle('API - JARDIN BOTÁNICO USHUAIA')
-		.setDescription('API jardin botánico ushuaia')
+		.setTitle('API - JARDÍN BOTÁNICO USHUAIA')
+		.setDescription('API jardín botánico ushuaia')
 		.setVersion('1.0')
 		.addBearerAuth()
 		.build();
