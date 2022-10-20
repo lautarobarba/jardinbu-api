@@ -20,8 +20,8 @@ export class UserService {
 
 		newUser.status = EStatus.ACTIVE;
 		newUser.isAdmin = false;
-		newUser.created = new Date();
-		newUser.updated = new Date();
+		newUser.createdAt = new Date();
+		newUser.updatedAt = new Date();
 		newUser.deleted = false;
 
 		try {

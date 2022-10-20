@@ -7,9 +7,10 @@ import { AuthModule } from 'modules/auth/auth.module';
 import { MailerModule } from './modules/mailer/mailer.module';
 import { SpecimenModule } from './modules/specimen/specimen.module';
 import { GenreModule } from './modules/genre/genre.module';
+import { SpeciesModule } from './modules/species/species.module';
 
 @Module({
-	imports: [DatabaseModule, AuthModule, UserModule, MailerModule, SpecimenModule, GenreModule],
+	imports: [DatabaseModule, AuthModule, UserModule, MailerModule, SpecimenModule, GenreModule, SpeciesModule],
 	controllers: [AppController],
 	providers: [AppService],
 })
