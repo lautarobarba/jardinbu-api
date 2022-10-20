@@ -91,8 +91,11 @@ export class GenreService {
 			where: { id },
 		});
 
+<<<<<<< HEAD
 		if (!genre) throw new NotFoundException();
 
+=======
+>>>>>>> 2f41dafbfddc1a3e95c91c4550b9730d1b1f021e
 		genre.deleted = true;
 		genre.updatedAt = timestamp;
 		this._genreRepository.save(genre);
