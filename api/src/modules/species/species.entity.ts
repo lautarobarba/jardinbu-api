@@ -3,6 +3,8 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	JoinColumn,
+	ManyToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm';
@@ -31,11 +33,10 @@ export class Species extends BaseEntity {
 	})
 	family: string;
 
-	@Column({
-		name: 'genre',
-		type: 'int',
-		nullable: false,
-		unique: false,
+	// Relation
+	@ManyToOne(() => Genre, genre => genre.species)
+	@JoinColumn({
+		name: 'genre_id',
 	})
 	genre: Genre;
 

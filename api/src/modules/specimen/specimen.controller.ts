@@ -13,30 +13,30 @@ import { SpecimenService } from './specimen.service';
 
 @Controller('specimen')
 export class SpecimenController {
-	constructor(private readonly specimenService: SpecimenService) {}
+	constructor(private readonly _specimenService: SpecimenService) {}
 
 	// @Post()
 	// create(@Body() createSpecimanDto: CreateSpecimanDto) {
-	//   return this.specimenService.create(createSpecimanDto);
+	//   return this._specimenService.create(createSpecimanDto);
 	// }
 
 	// @Get()
 	// findAll() {
-	//   return this.specimenService.findAll();
+	//   return this._specimenService.findAll();
 	// }
 
 	// @Get(':id')
 	// findOne(@Param('id') id: string) {
-	//   return this.specimenService.findOne(+id);
+	//   return this._specimenService.findOne(+id);
 	// }
 
 	// @Patch(':id')
 	// update(@Param('id') id: string, @Body() updateSpecimanDto: UpdateSpecimanDto) {
-	//   return this.specimenService.update(+id, updateSpecimanDto);
+	//   return this._specimenService.update(+id, updateSpecimanDto);
 	// }
 
 	// @Delete(':id')
 	// remove(@Param('id') id: string) {
-	//   return this.specimenService.remove(+id);
+	//   return this._specimenService.remove(+id);
 	// }
 }

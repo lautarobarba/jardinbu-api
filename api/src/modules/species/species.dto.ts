@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { GenreDto } from 'modules/genre/genre.dto';
 
 export class CreateSpeciesDto {
 	@ApiProperty()
@@ -8,7 +9,7 @@ export class CreateSpeciesDto {
 	family: string;
 
 	@ApiProperty()
-	genre: number;
+	genreId: number;
 
 	@ApiProperty()
 	description: string;
@@ -28,7 +29,7 @@ export class SpeciesDto {
 	family: string;
 
 	@ApiProperty()
-	genre: number;
+	genre: GenreDto;
 
 	@ApiProperty()
 	description: string;
@@ -50,18 +51,18 @@ export class UpdateSpeciesDto {
 	@ApiProperty()
 	id: number;
 
-	@ApiProperty()
-	name: string;
+	@ApiPropertyOptional()
+	name?: string;
 
-	@ApiProperty()
-	family: string;
+	@ApiPropertyOptional()
+	family?: string;
 
-	@ApiProperty()
-	genre: number;
+	@ApiPropertyOptional()
+	genreId?: number;
 
-	@ApiProperty()
-	description: string;
+	@ApiPropertyOptional()
+	description?: string;
 
-	@ApiProperty()
-	distribution: string;
+	@ApiPropertyOptional()
+	distribution?: string;
 }

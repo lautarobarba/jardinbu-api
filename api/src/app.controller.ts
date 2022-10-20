@@ -4,12 +4,12 @@ import { AppService } from 'app.service';
 
 @Controller()
 export class AppController {
-	constructor(private readonly appService: AppService) {}
+	constructor(private readonly _appService: AppService) {}
 
 	@Get()
 	@ApiTags('Bienvenida')
 	async getWelcome(): Promise<string> {
-		const mensaje = await this.appService.getWelcome();
+		const mensaje = await this._appService.getWelcome();
 		return mensaje;
 	}
 }

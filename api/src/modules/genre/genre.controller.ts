@@ -14,45 +14,45 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GenreService } from './genre.service';
 import { CreateGenreDto, GenreDto, UpdateGenreDto } from './genre.dto';
 import { Genre } from './genre.entity';
-// import { UpdateGenreDto } from './dto/update-genre.dto';
 
 @ApiTags('Géneros')
 @Controller('genre')
 export class GenreController {
-	constructor(private readonly genreService: GenreService) {}
+	constructor(private readonly _genreService: GenreService) {}
 
 	@Post()
 	@UseInterceptors(ClassSerializerInterceptor)
 	@ApiResponse({
 		status: HttpStatus.CREATED,
-		// description: 'Genre created',
 		type: GenreDto,
 	})
 	@ApiResponse({
 		status: HttpStatus.CONFLICT,
-		description: 'Error: Attributes already in use',
+		description: 'Error: Keys already in use',
+	})
+	@ApiResponse({
+		status: HttpStatus.NOT_ACCEPTABLE,
+		description: 'Error: Not Acceptable',
 	})
 	async create(@Body() createGenreDto: CreateGenreDto): Promise<Genre> {
-		return this.genreService.create(createGenreDto);
+		return this._genreService.create(createGenreDto);
 	}
 
 	@Get()
 	@UseInterceptors(ClassSerializerInterceptor)
 	@ApiResponse({
 		status: HttpStatus.OK,
-		// description: 'Genre list',
 		type: GenreDto,
 		isArray: true,
 	})
 	async findAll(): Promise<Genre[]> {
-		return this.genreService.findAll();
+		return this._genreService.findAll();
 	}
 
 	@Get(':id')
 	@UseInterceptors(ClassSerializerInterceptor)
 	@ApiResponse({
 		status: HttpStatus.OK,
-		// description: 'Genre list',
 		type: GenreDto,
 	})
 	@ApiResponse({
@@ -60,14 +60,13 @@ export class GenreController {
 		description: 'Error: Not Found',
 	})
 	async findOne(@Param('id') id: number): Promise<Genre> {
-		return this.genreService.findOne(id);
+		return this._genreService.findOne(id);
 	}
 
 	@Patch(':id')
 	@UseInterceptors(ClassSerializerInterceptor)
 	@ApiResponse({
 		status: HttpStatus.OK,
-		// description: 'Genre list',
 		type: GenreDto,
 	})
 	@ApiResponse({
@@ -76,10 +75,10 @@ export class GenreController {
 	})
 	@ApiResponse({
 		status: HttpStatus.CONFLICT,
-		description: 'Error: Attributes already in use',
+		description: 'Error: Keys already in use',
 	})
 	async update(@Body() updateGenreDto: UpdateGenreDto): Promise<Genre> {
-		return this.genreService.update(updateGenreDto);
+		return this._genreService.update(updateGenreDto);
 	}
 
 	@Delete(':id')
@@ -88,6 +87,6 @@ export class GenreController {
 		description: 'Error: Not Found',
 	})
 	async delete(@Param('id') id: number) {
-		return this.genreService.delete(id);
+		return this._genreService.delete(id);
 	}
 }

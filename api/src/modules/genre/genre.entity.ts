@@ -3,9 +3,11 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	OneToMany,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm';
+import { Species } from '../species/species.entity';
 
 @Entity('genres')
 export class Genre extends BaseEntity {
@@ -29,4 +31,8 @@ export class Genre extends BaseEntity {
 
 	@Column({ name: 'deleted', type: 'boolean', default: false })
 	deleted: boolean;
+
+	// Relation
+	@OneToMany(() => Species, species => species.genre)
+	species: Species[];
 }

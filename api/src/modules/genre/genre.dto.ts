@@ -26,6 +26,6 @@ export class UpdateGenreDto {
 	@ApiProperty()
 	id: number;
 
-	@ApiProperty()
-	name: string;
+	@ApiPropertyOptional()
+	name?: string;
 }
