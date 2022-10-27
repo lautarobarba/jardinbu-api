@@ -48,7 +48,7 @@ $ docker container exec -it prod/dev bash
 ```bash
 $ # Para crear un nuevo recurso usamos el generador de NestJs
 $ # RESOURCE_NAME puede ser el nombre de una entidad(tabla) en singular
-$ docker compose exec -it dev bash -c "nest g resource --no-spec modules/RESOURCE_NAME"
+$ docker compose exec -it dev bash -c "nest g resource modules/RESOURCE_NAME --no-spec"
 $ # El contenedor va a generar los archivos con el owner ROOT.
 $ # Cambiamos el owner para que nos deje editar
 $ sudo chown -R ${USER}:${USER} api/src/modules
