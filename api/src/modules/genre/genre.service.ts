@@ -58,6 +58,7 @@ export class GenreService {
 
 	async findAll(): Promise<Genre[]> {
 		return this._genreRepository.find({
+			where: { deleted: false },
 			order: { id: 'ASC' },
 		});
 	}

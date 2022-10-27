@@ -11,9 +11,9 @@ import {
 	HttpStatus,
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { CreateFamilyDto, UpdateFamilyDto } from './family.dto';
+import { Family } from './family.entity';
 import { FamilyService } from './family.service';
-import { CreateFamilyDto } from './dto/create-family.dto';
-import { UpdateFamilyDto } from './dto/update-family.dto';
 
 @ApiTags('Familia')
 @Controller('family')
@@ -24,7 +24,7 @@ export class FamilyController {
 	@UseInterceptors(ClassSerializerInterceptor)
 	@ApiResponse({
 		status: HttpStatus.CREATED,
-		type: FamilyDto,
+		type: Family,
 	})
 	@ApiResponse({
 		status: HttpStatus.CONFLICT,
@@ -34,27 +34,59 @@ export class FamilyController {
 		status: HttpStatus.NOT_ACCEPTABLE,
 		description: 'Error: Not Acceptable',
 	})
-	create(@Body() createFamilyDto: CreateFamilyDto) {
+	async create(@Body() createFamilyDto: CreateFamilyDto): Promise<Family> {
 		return this.familyService.create(createFamilyDto);
 	}
 
 	@Get()
-	findAll() {
+	@UseInterceptors(ClassSerializerInterceptor)
+	@ApiResponse({
+		status: HttpStatus.OK,
+		type: Family,
+		isArray: true,
+	})
+	async findAll(): Promise<Family[]> {
 		return this.familyService.findAll();
 	}
 
 	@Get(':id')
-	findOne(@Param('id') id: string) {
-		return this.familyService.findOne(+id);
+	@UseInterceptors(ClassSerializerInterceptor)
+	@ApiResponse({
+		status: HttpStatus.OK,
+		type: Family,
+	})
+	@ApiResponse({
+		status: HttpStatus.NOT_FOUND,
+		description: 'Error: Not Found',
+	})
+	async findOne(@Param('id') id: number): Promise<Family> {
+		return this.familyService.findOne(id);
 	}
 
 	@Patch(':id')
-	update(@Param('id') id: string, @Body() updateFamilyDto: UpdateFamilyDto) {
-		return this.familyService.update(+id, updateFamilyDto);
+	@UseInterceptors(ClassSerializerInterceptor)
+	@ApiResponse({
+		status: HttpStatus.OK,
+		type: Family,
+	})
+	@ApiResponse({
+		status: HttpStatus.NOT_FOUND,
+		description: 'Error: Not Found',
+	})
+	@ApiResponse({
+		status: HttpStatus.CONFLICT,
+		description: 'Error: Keys already in use',
+	})
+	async update(@Body() updateFamilyDto: UpdateFamilyDto): Promise<Family> {
+		return this.familyService.update(updateFamilyDto);
 	}
 
 	@Delete(':id')
-	remove(@Param('id') id: string) {
-		return this.familyService.remove(+id);
+	@ApiResponse({
+		status: HttpStatus.NOT_FOUND,
+		description: 'Error: Not Found',
+	})
+	remove(@Param('id') id: number) {
+		return this.familyService.delete(id);
 	}
 }

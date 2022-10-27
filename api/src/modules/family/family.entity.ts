@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Genre } from 'modules/genre/genre.entity';
 import {
 	BaseEntity,
@@ -12,9 +13,11 @@ import { Species } from '../species/species.entity';
 
 @Entity('families')
 export class Family extends BaseEntity {
+	@ApiProperty()
 	@PrimaryGeneratedColumn('increment')
 	id: number;
 
+	@ApiProperty()
 	@Column({
 		name: 'name',
 		type: 'varchar',
@@ -24,6 +27,7 @@ export class Family extends BaseEntity {
 	})
 	name: string;
 
+	@ApiProperty()
 	@Column({
 		name: 'description',
 		type: 'text',
@@ -32,16 +36,19 @@ export class Family extends BaseEntity {
 	})
 	description: string;
 
+	@ApiProperty()
 	@CreateDateColumn({ name: 'created_at' })
 	createdAt: Date;
 
+	@ApiProperty()
 	@UpdateDateColumn({ name: 'updated_at' })
 	updatedAt: Date;
 
+	@ApiProperty()
 	@Column({ name: 'deleted', type: 'boolean', default: false })
 	deleted: boolean;
 
-	// Relation
-	@OneToMany(() => Genre, genus => genus.family_id)
-	genera: Genre[];
+	// 	// Relation
+	// 	@OneToMany(() => Genre, genus => genus.family_id)
+	// 	genera: Genre[];
 }
