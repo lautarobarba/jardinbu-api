@@ -8,7 +8,7 @@ export class CreateSpeciesDto {
 	@ApiPropertyOptional()
 	description?: string;
 
-	@ApiProperty()
+	@ApiPropertyOptional()
 	genusId: number;
 
 	@ApiPropertyOptional()
