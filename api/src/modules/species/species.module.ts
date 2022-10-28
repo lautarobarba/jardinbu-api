@@ -3,10 +3,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { SpeciesService } from './species.service';
 import { SpeciesController } from './species.controller';
 import { Species } from './species.entity';
-import { GenreModule } from '../genre/genre.module';
+import { GenusModule } from '../genus/genus.module';
 
 @Module({
-	imports: [TypeOrmModule.forFeature([Species]), GenreModule],
+	imports: [TypeOrmModule.forFeature([Species]), GenusModule],
 	controllers: [SpeciesController],
 	providers: [SpeciesService],
 })

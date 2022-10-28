@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Genre } from 'modules/genre/genre.entity';
+import { Genus } from 'modules/genus/genus.entity';
 import {
 	BaseEntity,
 	Column,
@@ -48,7 +48,8 @@ export class Family extends BaseEntity {
 	@Column({ name: 'deleted', type: 'boolean', default: false })
 	deleted: boolean;
 
-	// 	// Relation
-	// 	@OneToMany(() => Genre, genus => genus.family_id)
-	// 	genera: Genre[];
+	// Relation
+	@ApiProperty()
+	@OneToMany(() => Genus, genus => genus.family)
+	genera: Genus[];
 }

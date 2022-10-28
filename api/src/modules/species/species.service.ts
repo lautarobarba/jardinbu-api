@@ -10,18 +10,18 @@ import * as moment from 'moment';
 import { validate } from 'class-validator';
 import { CreateSpeciesDto, UpdateSpeciesDto } from './species.dto';
 import { Species } from './species.entity';
-import { GenreService } from '../genre/genre.service';
+import { GenusService } from '../genus/genus.service';
 
 @Injectable()
 export class SpeciesService {
 	constructor(
 		@InjectRepository(Species)
 		private readonly _speciesRepository: Repository<Species>,
-		private readonly _genreService: GenreService
+		private readonly _genusService: GenusService
 	) {}
 
 	async create(createSpeciesDto: CreateSpeciesDto): Promise<Species> {
-		const { name, family, genreId, description, distribution } = createSpeciesDto;
+		const { name, family, genusId, description, distribution } = createSpeciesDto;
 		const timestamp: any = moment().format('YYYY-MM-DD HH:mm:ss');
 
 		// Controlo que la nueva especie no exista
@@ -36,7 +36,7 @@ export class SpeciesService {
 		// Si existe pero estaba borrado lógico entonces lo recupero
 		if (exists && exists.deleted) {
 			exists.family = family;
-			exists.genre = await this._genreService.findOne(genreId);
+			exists.genus = await this._genusService.findOne(genusId);
 			exists.description = description;
 			exists.distribution = distribution;
 			exists.deleted = false;
@@ -53,7 +53,7 @@ export class SpeciesService {
 		const species: Species = await this._speciesRepository.create();
 		species.name = name;
 		species.family = family;
-		species.genre = await this._genreService.findOne(genreId);
+		species.genus = await this._genusService.findOne(genusId);
 		species.description = description;
 		species.distribution = distribution;
 		species.updatedAt = timestamp;
@@ -69,14 +69,14 @@ export class SpeciesService {
 	async findAll(): Promise<Species[]> {
 		return this._speciesRepository.find({
 			order: { id: 'ASC' },
-			relations: ['genre'],
+			relations: ['genus'],
 		});
 	}
 
 	async findOne(id: number): Promise<Species> {
 		const species: Species = await this._speciesRepository.findOne({
 			where: { id },
-			relations: ['genre'],
+			relations: ['genus'],
 		});
 
 		if (!species) throw new NotFoundException();
@@ -84,13 +84,13 @@ export class SpeciesService {
 	}
 
 	async update(updateSpeciesDto: UpdateSpeciesDto): Promise<Species> {
-		const { id, name, family, genreId, description, distribution } =
+		const { id, name, family, genusId, description, distribution } =
 			updateSpeciesDto;
 		const timestamp: any = moment().format('YYYY-MM-DD HH:mm:ss');
 
 		const species: Species = await this._speciesRepository.findOne({
 			where: { id },
-			relations: ['genre'],
+			relations: ['genus'],
 		});
 
 		if (!species) throw new NotFoundException();
@@ -109,7 +109,7 @@ export class SpeciesService {
 		// Si no hay problemas actualizo los atributos
 		if (name) species.name = name;
 		if (family) species.family = family;
-		if (genreId) species.genre = await this._genreService.findOne(genreId);
+		if (genusId) species.genus = await this._genusService.findOne(genusId);
 		if (description) species.description = description;
 		if (distribution) species.distribution = distribution;
 		species.updatedAt = timestamp;

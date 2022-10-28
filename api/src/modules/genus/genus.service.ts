@@ -8,22 +8,22 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as moment from 'moment';
 import { validate } from 'class-validator';
-import { Genre } from './genre.entity';
-import { CreateGenreDto, UpdateGenreDto } from './genre.dto';
+import { Genus } from './genus.entity';
+import { CreateGenusDto, UpdateGenusDto } from './genus.dto';
 
 @Injectable()
-export class GenreService {
+export class GenusService {
 	constructor(
-		@InjectRepository(Genre)
-		private readonly _genreRepository: Repository<Genre>
+		@InjectRepository(Genus)
+		private readonly _genusRepository: Repository<Genus>
 	) {}
 
-	async create(createGenreDto: CreateGenreDto): Promise<Genre> {
-		const { name } = createGenreDto;
+	async create(createGenusDto: CreateGenusDto): Promise<Genus> {
+		const { name } = createGenusDto;
 		const timestamp: any = moment().format('YYYY-MM-DD HH:mm:ss');
 
 		// Controlo que el nuevo genero no exista
-		const exists: Genre = await this._genreRepository.findOne({
+		const exists: Genus = await this._genusRepository.findOne({
 			where: { name },
 		});
 
@@ -40,51 +40,51 @@ export class GenreService {
 			const errors = await validate(exists);
 			if (errors && errors.length > 0) throw new NotAcceptableException();
 
-			return this._genreRepository.save(exists);
+			return this._genusRepository.save(exists);
 		}
 
 		// Si no existe entonces creo uno nuevo
-		const genre: Genre = await this._genreRepository.create();
-		genre.name = name;
-		genre.updatedAt = timestamp;
-		genre.createdAt = timestamp;
+		const genus: Genus = await this._genusRepository.create();
+		genus.name = name;
+		genus.updatedAt = timestamp;
+		genus.createdAt = timestamp;
 
 		// Controlo que el modelo no tenga errores antes de guardar
-		const errors = await validate(genre);
+		const errors = await validate(genus);
 		if (errors && errors.length > 0) throw new NotAcceptableException();
 
-		return this._genreRepository.save(genre);
+		return this._genusRepository.save(genus);
 	}
 
-	async findAll(): Promise<Genre[]> {
-		return this._genreRepository.find({
+	async findAll(): Promise<Genus[]> {
+		return this._genusRepository.find({
 			where: { deleted: false },
 			order: { id: 'ASC' },
 		});
 	}
 
-	async findOne(id: number): Promise<Genre> {
-		const genre: Genre = await this._genreRepository.findOne({
+	async findOne(id: number): Promise<Genus> {
+		const genus: Genus = await this._genusRepository.findOne({
 			where: { id },
 		});
 
-		if (!genre) throw new NotFoundException();
-		return genre;
+		if (!genus) throw new NotFoundException();
+		return genus;
 	}
 
-	async update(updateGenreDto: UpdateGenreDto): Promise<Genre> {
-		const { id, name } = updateGenreDto;
+	async update(updateGenusDto: UpdateGenusDto): Promise<Genus> {
+		const { id, name } = updateGenusDto;
 		const timestamp: any = moment().format('YYYY-MM-DD HH:mm:ss');
 
-		const genre: Genre = await this._genreRepository.findOne({
+		const genus: Genus = await this._genusRepository.findOne({
 			where: { id },
 		});
 
-		if (!genre) throw new NotFoundException();
+		if (!genus) throw new NotFoundException();
 
 		if (name) {
 			// Controlo que las claves no esten en uso
-			const exists: Genre = await this._genreRepository.findOne({
+			const exists: Genus = await this._genusRepository.findOne({
 				where: { name },
 			});
 
@@ -94,32 +94,32 @@ export class GenreService {
 		}
 
 		// Si no hay problemas actualizo los atributos
-		if (name) genre.name = name;
-		genre.updatedAt = timestamp;
+		if (name) genus.name = name;
+		genus.updatedAt = timestamp;
 
 		// Controlo que el modelo no tenga errores antes de guardar
-		const errors = await validate(genre);
+		const errors = await validate(genus);
 		if (errors && errors.length > 0) throw new NotAcceptableException();
 
-		return this._genreRepository.save(genre);
+		return this._genusRepository.save(genus);
 	}
 
 	async delete(id: number) {
 		const timestamp: any = moment().format('YYYY-MM-DD HH:mm:ss');
 
-		const genre: Genre = await this._genreRepository.findOne({
+		const genus: Genus = await this._genusRepository.findOne({
 			where: { id },
 		});
 
-		if (!genre) throw new NotFoundException();
+		if (!genus) throw new NotFoundException();
 
-		genre.deleted = true;
-		genre.updatedAt = timestamp;
+		genus.deleted = true;
+		genus.updatedAt = timestamp;
 
 		// Controlo que el modelo no tenga errores antes de guardar
-		const errors = await validate(genre);
+		const errors = await validate(genus);
 		if (errors && errors.length > 0) throw new NotAcceptableException();
 
-		this._genreRepository.save(genre);
+		this._genusRepository.save(genus);
 	}
 }

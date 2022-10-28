@@ -5,9 +5,9 @@ import { DatabaseModule } from 'database/database.module';
 import { UserModule } from 'modules/user/user.module';
 import { AuthModule } from 'modules/auth/auth.module';
 import { FamilyModule } from './modules/family/family.module';
+import { GenusModule } from './modules/genus/genus.module';
+import { SpeciesModule } from './modules/species/species.module';
 // import { SpecimenModule } from './modules/specimen/specimen.module';
-// import { GenreModule } from './modules/genre/genre.module';
-// import { SpeciesModule } from './modules/species/species.module';
 // import { MailerModule } from './modules/mailer/mailer.module';
 
 @Module({
@@ -16,10 +16,10 @@ import { FamilyModule } from './modules/family/family.module';
 		AuthModule,
 		UserModule,
 		FamilyModule,
-		// MailerModule,
+		GenusModule,
+		SpeciesModule,
 		// SpecimenModule,
-		// GenreModule,
-		// SpeciesModule,
+		// MailerModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],

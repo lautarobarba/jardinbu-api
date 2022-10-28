@@ -1,3 +1,5 @@
+import { ApiProperty } from '@nestjs/swagger';
+import { Family } from 'modules/family/family.entity';
 import {
 	BaseEntity,
 	Column,
@@ -5,16 +7,19 @@ import {
 	Entity,
 	JoinColumn,
 	ManyToOne,
+	OneToMany,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm';
-import { Genus } from '../genus/genus.entity';
+import { Species } from '../species/species.entity';
 
-@Entity('species')
-export class Species extends BaseEntity {
+@Entity('genera')
+export class Genus extends BaseEntity {
+	@ApiProperty()
 	@PrimaryGeneratedColumn('increment')
 	id: number;
 
+	@ApiProperty()
 	@Column({
 		name: 'name',
 		type: 'varchar',
@@ -24,22 +29,7 @@ export class Species extends BaseEntity {
 	})
 	name: string;
 
-	@Column({
-		name: 'family',
-		type: 'varchar',
-		nullable: false,
-		unique: false,
-		length: 255,
-	})
-	family: string;
-
-	// Relation
-	@ManyToOne(() => Genus, genus => genus.species)
-	@JoinColumn({
-		name: 'genus_id',
-	})
-	genus: Genus;
-
+	@ApiProperty()
 	@Column({
 		name: 'description',
 		type: 'text',
@@ -48,21 +38,28 @@ export class Species extends BaseEntity {
 	})
 	description: string;
 
-	@Column({
-		name: 'distribution',
-		type: 'varchar',
-		nullable: true,
-		unique: false,
-		length: 255,
+	// Relation
+	@ApiProperty()
+	@ManyToOne(() => Family, family => family.genera)
+	@JoinColumn({
+		name: 'family_id',
 	})
-	distribution: string;
+	family: Family;
 
+	@ApiProperty()
 	@CreateDateColumn({ name: 'created_at' })
 	createdAt: Date;
 
+	@ApiProperty()
 	@UpdateDateColumn({ name: 'updated_at' })
 	updatedAt: Date;
 
+	@ApiProperty()
 	@Column({ name: 'deleted', type: 'boolean', default: false })
 	deleted: boolean;
+
+	// Relation
+	@ApiProperty()
+	@OneToMany(() => Species, species => species.genus)
+	species: Species[];
 }

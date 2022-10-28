@@ -11,20 +11,20 @@ import {
 	HttpStatus,
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { GenreService } from './genre.service';
-import { CreateGenreDto, GenreDto, UpdateGenreDto } from './genre.dto';
-import { Genre } from './genre.entity';
+import { GenusService } from './genus.service';
+import { CreateGenusDto, UpdateGenusDto } from './genus.dto';
+import { Genus } from './genus.entity';
 
 @ApiTags('Géneros')
-@Controller('genre')
-export class GenreController {
-	constructor(private readonly _genreService: GenreService) {}
+@Controller('Genus')
+export class GenusController {
+	constructor(private readonly _genusService: GenusService) {}
 
 	@Post()
 	@UseInterceptors(ClassSerializerInterceptor)
 	@ApiResponse({
 		status: HttpStatus.CREATED,
-		type: GenreDto,
+		type: Genus,
 	})
 	@ApiResponse({
 		status: HttpStatus.CONFLICT,
@@ -34,40 +34,40 @@ export class GenreController {
 		status: HttpStatus.NOT_ACCEPTABLE,
 		description: 'Error: Not Acceptable',
 	})
-	async create(@Body() createGenreDto: CreateGenreDto): Promise<Genre> {
-		return this._genreService.create(createGenreDto);
+	async create(@Body() createGenusDto: CreateGenusDto): Promise<Genus> {
+		return this._genusService.create(createGenusDto);
 	}
 
 	@Get()
 	@UseInterceptors(ClassSerializerInterceptor)
 	@ApiResponse({
 		status: HttpStatus.OK,
-		type: GenreDto,
+		type: Genus,
 		isArray: true,
 	})
-	async findAll(): Promise<Genre[]> {
-		return this._genreService.findAll();
+	async findAll(): Promise<Genus[]> {
+		return this._genusService.findAll();
 	}
 
 	@Get(':id')
 	@UseInterceptors(ClassSerializerInterceptor)
 	@ApiResponse({
 		status: HttpStatus.OK,
-		type: GenreDto,
+		type: Genus,
 	})
 	@ApiResponse({
 		status: HttpStatus.NOT_FOUND,
 		description: 'Error: Not Found',
 	})
-	async findOne(@Param('id') id: number): Promise<Genre> {
-		return this._genreService.findOne(id);
+	async findOne(@Param('id') id: number): Promise<Genus> {
+		return this._genusService.findOne(id);
 	}
 
 	@Patch(':id')
 	@UseInterceptors(ClassSerializerInterceptor)
 	@ApiResponse({
 		status: HttpStatus.OK,
-		type: GenreDto,
+		type: Genus,
 	})
 	@ApiResponse({
 		status: HttpStatus.NOT_FOUND,
@@ -77,8 +77,8 @@ export class GenreController {
 		status: HttpStatus.CONFLICT,
 		description: 'Error: Keys already in use',
 	})
-	async update(@Body() updateGenreDto: UpdateGenreDto): Promise<Genre> {
-		return this._genreService.update(updateGenreDto);
+	async update(@Body() updateGenusDto: UpdateGenusDto): Promise<Genus> {
+		return this._genusService.update(updateGenusDto);
 	}
 
 	@Delete(':id')
@@ -87,6 +87,6 @@ export class GenreController {
 		description: 'Error: Not Found',
 	})
 	async delete(@Param('id') id: number) {
-		return this._genreService.delete(id);
+		return this._genusService.delete(id);
 	}
 }

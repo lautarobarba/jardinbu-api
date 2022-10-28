@@ -10,8 +10,6 @@ import * as moment from 'moment';
 import { validate } from 'class-validator';
 import { CreateFamilyDto, UpdateFamilyDto } from './family.dto';
 import { Family } from './family.entity';
-// import { CreateFamilyDto } from './dto/create-family.dto';
-// import { UpdateFamilyDto } from './dto/update-family.dto';
 
 @Injectable()
 export class FamilyService {
