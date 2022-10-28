@@ -39,9 +39,9 @@ export class Genus extends BaseEntity {
 	description: string;
 
 	// Relation
-	// @ApiProperty({
-	// 	type: () => Family,
-	// })
+	@ApiProperty({
+		type: () => Family,
+	})
 	@ManyToOne(() => Family, family => family.genera)
 	@JoinColumn({
 		name: 'family_id',
