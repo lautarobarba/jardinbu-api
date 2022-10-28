@@ -26,17 +26,17 @@ export class SpecimenController {
 	// }
 
 	// @Get(':id')
-	// async findOne(@Param('id') id: string) {
+	// async findOne(@Param('id') id: number) {
 	//   return this._specimenService.findOne(+id);
 	// }
 
 	// @Patch()
-	// async update(@Param('id') id: string, @Body() updateSpecimanDto: UpdateSpecimanDto) {
+	// async update(@Body() updateSpecimanDto: UpdateSpecimanDto) {
 	//   return this._specimenService.update(+id, updateSpecimanDto);
 	// }
 
 	// @Delete(':id')
-	// async delete(@Param('id') id: string) {
+	// async delete(@Param('id') id: number) {
 	//   return this._specimenService.delete(+id);
 	// }
 }
