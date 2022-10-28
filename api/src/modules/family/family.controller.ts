@@ -86,7 +86,7 @@ export class FamilyController {
 		status: HttpStatus.NOT_FOUND,
 		description: 'Error: Not Found',
 	})
-	remove(@Param('id') id: number) {
+	async delete(@Param('id') id: number) {
 		return this.familyService.delete(id);
 	}
 }

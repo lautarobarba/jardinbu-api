@@ -16,27 +16,27 @@ export class SpecimenController {
 	constructor(private readonly _specimenService: SpecimenService) {}
 
 	// @Post()
-	// create(@Body() createSpecimanDto: CreateSpecimanDto) {
+	// async create(@Body() createSpecimanDto: CreateSpecimanDto) {
 	//   return this._specimenService.create(createSpecimanDto);
 	// }
 
 	// @Get()
-	// findAll() {
+	// async findAll() {
 	//   return this._specimenService.findAll();
 	// }
 
 	// @Get(':id')
-	// findOne(@Param('id') id: string) {
+	// async findOne(@Param('id') id: string) {
 	//   return this._specimenService.findOne(+id);
 	// }
 
 	// @Patch()
-	// update(@Param('id') id: string, @Body() updateSpecimanDto: UpdateSpecimanDto) {
+	// async update(@Param('id') id: string, @Body() updateSpecimanDto: UpdateSpecimanDto) {
 	//   return this._specimenService.update(+id, updateSpecimanDto);
 	// }
 
 	// @Delete(':id')
-	// remove(@Param('id') id: string) {
-	//   return this._specimenService.remove(+id);
+	// async delete(@Param('id') id: string) {
+	//   return this._specimenService.delete(+id);
 	// }
 }
