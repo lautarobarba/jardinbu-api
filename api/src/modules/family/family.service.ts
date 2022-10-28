@@ -85,7 +85,7 @@ export class FamilyService {
 		if (!family) throw new NotFoundException();
 
 		if (name) {
-			// Controlo que las claves no esten en uso
+			// Controlo que las claves no estén en uso
 			const exists: Family = await this._familyRepository.findOne({
 				where: { name },
 			});

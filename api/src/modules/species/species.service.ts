@@ -92,7 +92,7 @@ export class SpeciesService {
 
 		if (!species) throw new NotFoundException();
 
-		// Controlo que las claves no esten en uso
+		// Controlo que las claves no estén en uso
 		if (name) {
 			const exists: Species = await this._speciesRepository.findOne({
 				where: { name },
