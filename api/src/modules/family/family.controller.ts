@@ -63,7 +63,7 @@ export class FamilyController {
 		return this.familyService.findOne(id);
 	}
 
-	@Patch(':id')
+	@Patch()
 	@UseInterceptors(ClassSerializerInterceptor)
 	@ApiResponse({
 		status: HttpStatus.OK,

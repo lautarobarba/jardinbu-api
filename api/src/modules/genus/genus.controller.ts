@@ -63,7 +63,7 @@ export class GenusController {
 		return this._genusService.findOne(id);
 	}
 
-	@Patch(':id')
+	@Patch()
 	@UseInterceptors(ClassSerializerInterceptor)
 	@ApiResponse({
 		status: HttpStatus.OK,

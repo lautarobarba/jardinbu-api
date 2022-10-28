@@ -30,7 +30,7 @@ export class SpecimenController {
 	//   return this._specimenService.findOne(+id);
 	// }
 
-	// @Patch(':id')
+	// @Patch()
 	// update(@Param('id') id: string, @Body() updateSpecimanDto: UpdateSpecimanDto) {
 	//   return this._specimenService.update(+id, updateSpecimanDto);
 	// }

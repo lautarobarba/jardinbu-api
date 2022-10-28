@@ -67,7 +67,7 @@ export class SpeciesController {
 		return this._speciesService.findOne(id);
 	}
 
-	@Patch(':id')
+	@Patch()
 	@UseInterceptors(ClassSerializerInterceptor)
 	@ApiResponse({
 		status: HttpStatus.OK,
