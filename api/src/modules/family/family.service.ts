@@ -22,7 +22,7 @@ export class FamilyService {
 		const { name, description } = createFamilyDto;
 		const timestamp: any = moment().format('YYYY-MM-DD HH:mm:ss');
 
-		// Controlo que el nuevo genero no exista
+		// Controlo que la nueva familia no exista
 		const exists: Family = await this._familyRepository.findOne({
 			where: { name },
 		});
