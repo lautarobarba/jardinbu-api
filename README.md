@@ -43,6 +43,12 @@ $ docker compose down
 $ docker container exec -it prod/dev bash
 ```
 
+## Instalar nuevas librerías
+
+```bash
+$ docker compose exec -it dev bash -c "npm install NPM_PACKAGE"
+```
+
 ## Recursos NestJS
 
 ```bash
