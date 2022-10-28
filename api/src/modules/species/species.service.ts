@@ -21,7 +21,7 @@ export class SpeciesService {
 	) {}
 
 	async create(createSpeciesDto: CreateSpeciesDto): Promise<Species> {
-		const { name, family, genusId, description, distribution } = createSpeciesDto;
+		const { name, description, genusId, distribution } = createSpeciesDto;
 		const timestamp: any = moment().format('YYYY-MM-DD HH:mm:ss');
 
 		// Controlo que la nueva especie no exista
@@ -35,9 +35,8 @@ export class SpeciesService {
 
 		// Si existe pero estaba borrado lógico entonces lo recupero
 		if (exists && exists.deleted) {
-			exists.family = family;
-			exists.genus = await this._genusService.findOne(genusId);
 			exists.description = description;
+			exists.genus = await this._genusService.findOne(genusId);
 			exists.distribution = distribution;
 			exists.deleted = false;
 			exists.updatedAt = timestamp;
@@ -52,9 +51,8 @@ export class SpeciesService {
 		// Si no existe entonces creo uno nuevo
 		const species: Species = await this._speciesRepository.create();
 		species.name = name;
-		species.family = family;
-		species.genus = await this._genusService.findOne(genusId);
 		species.description = description;
+		species.genus = await this._genusService.findOne(genusId);
 		species.distribution = distribution;
 		species.updatedAt = timestamp;
 		species.createdAt = timestamp;
@@ -68,6 +66,7 @@ export class SpeciesService {
 
 	async findAll(): Promise<Species[]> {
 		return this._speciesRepository.find({
+			where: { deleted: false },
 			order: { id: 'ASC' },
 			relations: ['genus'],
 		});
@@ -84,13 +83,11 @@ export class SpeciesService {
 	}
 
 	async update(updateSpeciesDto: UpdateSpeciesDto): Promise<Species> {
-		const { id, name, family, genusId, description, distribution } =
-			updateSpeciesDto;
+		const { id, name, genusId, description, distribution } = updateSpeciesDto;
 		const timestamp: any = moment().format('YYYY-MM-DD HH:mm:ss');
 
 		const species: Species = await this._speciesRepository.findOne({
 			where: { id },
-			relations: ['genus'],
 		});
 
 		if (!species) throw new NotFoundException();
@@ -108,9 +105,8 @@ export class SpeciesService {
 
 		// Si no hay problemas actualizo los atributos
 		if (name) species.name = name;
-		if (family) species.family = family;
-		if (genusId) species.genus = await this._genusService.findOne(genusId);
 		if (description) species.description = description;
+		if (genusId) species.genus = await this._genusService.findOne(genusId);
 		if (distribution) species.distribution = distribution;
 		species.updatedAt = timestamp;
 

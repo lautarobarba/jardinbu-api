@@ -1,50 +1,24 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Genus } from 'modules/genus/genus.entity';
+import { Genus } from '../genus/genus.entity';
 
 export class CreateSpeciesDto {
 	@ApiProperty()
 	name: string;
 
-	@ApiProperty()
-	family: string;
+	@ApiPropertyOptional()
+	description?: string;
 
 	@ApiProperty()
 	genusId: number;
 
-	@ApiProperty()
-	description: string;
+	@ApiPropertyOptional()
+	distribution?: string;
 
-	@ApiProperty()
-	distribution: string;
-}
+	// @ApiPropertyOptional()
+	// example_img?: string;
 
-export class SpeciesDto {
-	@ApiProperty()
-	id: number;
-
-	@ApiProperty()
-	name: string;
-
-	@ApiProperty()
-	family: string;
-
-	@ApiProperty()
-	genre: Genus;
-
-	@ApiProperty()
-	description: string;
-
-	@ApiProperty()
-	distribution: string;
-
-	@ApiProperty()
-	createdAt: Date;
-
-	@ApiProperty()
-	updatedAt: Date;
-
-	@ApiProperty()
-	deleted: boolean;
+	// @ApiPropertyOptional()
+	// foliage_img?: string;
 }
 
 export class UpdateSpeciesDto {
@@ -55,14 +29,17 @@ export class UpdateSpeciesDto {
 	name?: string;
 
 	@ApiPropertyOptional()
-	family?: string;
+	description?: string;
 
 	@ApiPropertyOptional()
 	genusId?: number;
 
 	@ApiPropertyOptional()
-	description?: string;
-
-	@ApiPropertyOptional()
 	distribution?: string;
+
+	// @ApiPropertyOptional()
+	// example_img?: string;
+
+	// @ApiPropertyOptional()
+	// foliage_img?: string;
 }

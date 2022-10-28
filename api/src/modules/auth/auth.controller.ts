@@ -12,9 +12,9 @@ import {
 } from '@nestjs/common';
 import { Response, Request } from 'express';
 import { ApiBearerAuth, ApiTags, ApiResponse } from '@nestjs/swagger';
-import { CreateUserDto } from 'modules/user/user.dto';
-import { User } from 'modules/user/user.entity';
-import { UserService } from 'modules/user/user.service';
+import { User } from '../user/user.entity';
+import { UserService } from '../user/user.service';
+import { CreateUserDto } from '../user/user.dto';
 import { LoginDto, SessionDto } from './auth.dto';
 import { AuthService } from './auth.service';
 import { AccessTokenGuard } from './guards/accessToken.guard';
@@ -31,7 +31,11 @@ export class AuthController {
 
 	@Post('register')
 	@UseInterceptors(ClassSerializerInterceptor)
-	@ApiResponse({ status: HttpStatus.CREATED, description: 'User created', type: SessionDto })
+	@ApiResponse({
+		status: HttpStatus.CREATED,
+		description: 'User created',
+		type: SessionDto,
+	})
 	@ApiResponse({ status: HttpStatus.CONFLICT, description: 'Error: Conflict' })
 	async register(
 		@Res({ passthrough: true }) response: Response,
@@ -43,9 +47,16 @@ export class AuthController {
 
 	@Post('login')
 	@UseInterceptors(ClassSerializerInterceptor)
-	@ApiResponse({ status: HttpStatus.OK, description: 'User logged in', type: SessionDto })
+	@ApiResponse({
+		status: HttpStatus.OK,
+		description: 'User logged in',
+		type: SessionDto,
+	})
 	@ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Error: Not Found' })
-	@ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Error: Unauthorized' })
+	@ApiResponse({
+		status: HttpStatus.UNAUTHORIZED,
+		description: 'Error: Unauthorized',
+	})
 	async login(
 		@Res({ passthrough: true }) response: Response,
 		@Body() loginDto: LoginDto
@@ -57,7 +68,11 @@ export class AuthController {
 	@Post('refresh')
 	@UseGuards(RefreshTokenGuard)
 	@ApiBearerAuth()
-	@ApiResponse({ status: HttpStatus.OK, description: 'New token', type: SessionDto })
+	@ApiResponse({
+		status: HttpStatus.OK,
+		description: 'New token',
+		type: SessionDto,
+	})
 	async refreshTokens(@Req() request: Request): Promise<SessionDto> {
 		const { payload, refreshToken } = request.user as {
 			payload: IJWTPayload;
@@ -73,7 +88,10 @@ export class AuthController {
 	@ApiBearerAuth()
 	@ApiResponse({ status: HttpStatus.OK, description: 'User logged out' })
 	@ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Error: Not Found' })
-	@ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Error: Unauthorized' })
+	@ApiResponse({
+		status: HttpStatus.UNAUTHORIZED,
+		description: 'Error: Unauthorized',
+	})
 	async logout(
 		@Req() request: Request,
 		@Res({ passthrough: true }) response: Response

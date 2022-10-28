@@ -11,7 +11,7 @@ import {
 	HttpStatus,
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CreateSpeciesDto, SpeciesDto, UpdateSpeciesDto } from './species.dto';
+import { CreateSpeciesDto, UpdateSpeciesDto } from './species.dto';
 import { Species } from './species.entity';
 import { SpeciesService } from './species.service';
 
@@ -24,7 +24,7 @@ export class SpeciesController {
 	@UseInterceptors(ClassSerializerInterceptor)
 	@ApiResponse({
 		status: HttpStatus.CREATED,
-		type: SpeciesDto,
+		type: Species,
 	})
 	@ApiResponse({
 		status: HttpStatus.CONFLICT,
@@ -46,7 +46,7 @@ export class SpeciesController {
 	@UseInterceptors(ClassSerializerInterceptor)
 	@ApiResponse({
 		status: HttpStatus.OK,
-		type: SpeciesDto,
+		type: Species,
 		isArray: true,
 	})
 	async findAll(): Promise<Species[]> {
@@ -57,7 +57,7 @@ export class SpeciesController {
 	@UseInterceptors(ClassSerializerInterceptor)
 	@ApiResponse({
 		status: HttpStatus.OK,
-		type: SpeciesDto,
+		type: Species,
 	})
 	@ApiResponse({
 		status: HttpStatus.NOT_FOUND,
@@ -71,7 +71,7 @@ export class SpeciesController {
 	@UseInterceptors(ClassSerializerInterceptor)
 	@ApiResponse({
 		status: HttpStatus.OK,
-		type: SpeciesDto,
+		type: Species,
 	})
 	@ApiResponse({
 		status: HttpStatus.NOT_FOUND,

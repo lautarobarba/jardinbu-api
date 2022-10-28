@@ -7,8 +7,8 @@ import {
 } from '@nestjs/common';
 import { compare, genSalt, hash } from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
-import { CreateUserDto } from 'modules/user/user.dto';
-import { UserService } from 'modules/user/user.service';
+import { CreateUserDto } from '../user/user.dto';
+import { UserService } from '../user/user.service';
 import { User } from '../user/user.entity';
 import { LoginDto, SessionDto } from './auth.dto';
 

@@ -13,4 +13,4 @@ export const AppDataSource = new DataSource({
 	logging: true,
 	synchronize: false,
 	migrationsRun: false,
-})
+});

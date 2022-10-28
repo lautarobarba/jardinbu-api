@@ -14,9 +14,9 @@ import {
 	HttpStatus,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { AccessTokenGuard } from 'modules/auth/guards/accessToken.guard';
 import { Response, Request } from 'express';
-import { IJWTPayload } from 'modules/auth/jwt-payload.interface';
+import { AccessTokenGuard } from '../auth/guards/accessToken.guard';
+import { IJWTPayload } from '../auth/jwt-payload.interface';
 import { UserDto, UpdateUserDto } from './user.dto';
 import { User } from './user.entity';
 import { UserService } from './user.service';

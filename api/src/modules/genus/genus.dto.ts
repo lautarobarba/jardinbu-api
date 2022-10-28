@@ -4,7 +4,11 @@ export class CreateGenusDto {
 	@ApiProperty()
 	name: string;
 
-	// TODO falta familia y descripcion
+	@ApiPropertyOptional()
+	description?: string;
+
+	@ApiPropertyOptional()
+	familyId?: number;
 }
 
 export class UpdateGenusDto {
@@ -14,5 +18,9 @@ export class UpdateGenusDto {
 	@ApiPropertyOptional()
 	name?: string;
 
-	// TODO falta familia y descripcion
+	@ApiPropertyOptional()
+	description?: string;
+
+	@ApiPropertyOptional()
+	familyId?: number;
 }

@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Genus } from 'modules/genus/genus.entity';
 import {
 	BaseEntity,
 	Column,
@@ -9,7 +8,7 @@ import {
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm';
-import { Species } from '../species/species.entity';
+import { Genus } from '../genus/genus.entity';
 
 @Entity('families')
 export class Family extends BaseEntity {
@@ -49,7 +48,6 @@ export class Family extends BaseEntity {
 	deleted: boolean;
 
 	// Relation
-	@ApiProperty()
 	@OneToMany(() => Genus, genus => genus.family)
 	genera: Genus[];
 }

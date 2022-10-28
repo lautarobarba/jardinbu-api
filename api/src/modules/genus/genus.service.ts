@@ -8,6 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as moment from 'moment';
 import { validate } from 'class-validator';
+import { FamilyService } from '../family/family.service';
 import { Genus } from './genus.entity';
 import { CreateGenusDto, UpdateGenusDto } from './genus.dto';
 
@@ -15,11 +16,12 @@ import { CreateGenusDto, UpdateGenusDto } from './genus.dto';
 export class GenusService {
 	constructor(
 		@InjectRepository(Genus)
-		private readonly _genusRepository: Repository<Genus>
+		private readonly _genusRepository: Repository<Genus>,
+		private readonly _familyService: FamilyService
 	) {}
 
 	async create(createGenusDto: CreateGenusDto): Promise<Genus> {
-		const { name } = createGenusDto;
+		const { name, description, familyId } = createGenusDto;
 		const timestamp: any = moment().format('YYYY-MM-DD HH:mm:ss');
 
 		// Controlo que el nuevo genero no exista
@@ -33,6 +35,8 @@ export class GenusService {
 
 		// Si existe pero estaba borrado lógico entonces lo recupero
 		if (exists && exists.deleted) {
+			exists.description = description;
+			exists.family = await this._familyService.findOne(familyId);
 			exists.deleted = false;
 			exists.updatedAt = timestamp;
 
@@ -46,6 +50,8 @@ export class GenusService {
 		// Si no existe entonces creo uno nuevo
 		const genus: Genus = await this._genusRepository.create();
 		genus.name = name;
+		genus.description = description;
+		genus.family = await this._familyService.findOne(familyId);
 		genus.updatedAt = timestamp;
 		genus.createdAt = timestamp;
 
@@ -60,12 +66,14 @@ export class GenusService {
 		return this._genusRepository.find({
 			where: { deleted: false },
 			order: { id: 'ASC' },
+			relations: ['family'],
 		});
 	}
 
 	async findOne(id: number): Promise<Genus> {
 		const genus: Genus = await this._genusRepository.findOne({
 			where: { id },
+			relations: ['family'],
 		});
 
 		if (!genus) throw new NotFoundException();
@@ -73,7 +81,7 @@ export class GenusService {
 	}
 
 	async update(updateGenusDto: UpdateGenusDto): Promise<Genus> {
-		const { id, name } = updateGenusDto;
+		const { id, name, description, familyId } = updateGenusDto;
 		const timestamp: any = moment().format('YYYY-MM-DD HH:mm:ss');
 
 		const genus: Genus = await this._genusRepository.findOne({
