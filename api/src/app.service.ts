@@ -1,9 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { genSalt, hash, compare } from 'bcryptjs';
 
 @Injectable()
 export class AppService {
+	private readonly _logger = new Logger(AppService.name);
+
 	async getWelcome(): Promise<string> {
+		this._logger.debug('getWelcome()');
 		// Busco el año actual
 		const date: Date = new Date();
 		const year: string = date.getFullYear().toString();

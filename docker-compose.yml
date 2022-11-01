@@ -16,7 +16,11 @@ services:
     ports:
       - ${BACK_PORT}:3000
     volumes:
-      - ./api:/app
+      - ./api:/api
+    depends_on:
+      - "redis"
+    links:
+      - "redis"
     extra_hosts:
       - host.docker.internal:host-gateway
 
@@ -35,6 +39,15 @@ services:
     ports:
       - ${BACK_PORT}:3000
     volumes:
-      - ./api:/app
+      - ./api:/api
+    depends_on:
+      - "redis"
+    links:
+      - "redis"
     extra_hosts:
       - host.docker.internal:host-gateway
+
+  redis:
+    image: "redis:alpine"
+    # ports:
+    #   - "6379:6379"

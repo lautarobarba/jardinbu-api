@@ -1,52 +1,52 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Role } from '../auth/role.enum';
+import { Express } from 'express';
 
 export class CreateUserDto {
 	@ApiProperty()
 	email: string;
 
 	@ApiProperty()
-	name: string;
+	firstname: string;
+
+	@ApiProperty()
+	lastname: string;
+
+	@ApiPropertyOptional({ 
+		type: 'string', 
+		format: 'binary' 
+	})
+	profilePicture?: Express.Multer.File;
 
 	@ApiProperty()
 	password: string;
 }
 
 export class UpdateUserDto {
-	@ApiPropertyOptional()
-	name?: string;
-
-	@ApiPropertyOptional()
-	refreshToken?: string;
-
-	@ApiPropertyOptional()
-	status?: string;
-}
-
-export class UserDto {
 	@ApiProperty()
 	id: number;
 
-	@ApiProperty()
-	email: string;
+	@ApiPropertyOptional()
+	email?: string;
 
-	@ApiProperty()
-	name: string;
+	@ApiPropertyOptional()
+	isEmailConfirmed?: boolean;
 
-	@ApiProperty()
-	refreshToken: string;
+	@ApiPropertyOptional()
+	firstname: string;
 
-	@ApiProperty()
-	status: string;
+	@ApiPropertyOptional()
+	lastname: string;
 
-	@ApiProperty()
-	isAdmin: boolean;
+	@ApiPropertyOptional({ 
+		type: 'string', 
+		format: 'binary' 
+	})
+	profilePicture?: Express.Multer.File;
 
-	@ApiProperty()
-	created: Date;
+	@ApiPropertyOptional()
+	status?: string;
 
-	@ApiProperty()
-	updated: Date;
-
-	@ApiProperty()
-	deleted: boolean;
+	@ApiPropertyOptional()
+	role?: Role;
 }

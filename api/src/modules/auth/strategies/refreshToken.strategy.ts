@@ -1,9 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
+import { User } from 'modules/user/user.entity';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Request } from 'express';
-import { User } from '../../user/user.entity';
-import { UserService } from '../../user/user.service';
+import { UserService } from 'modules/user/user.service';
 import { IJWTPayload } from '../jwt-payload.interface';
 
 @Injectable()
@@ -25,7 +25,7 @@ export class RefreshTokenStrategy extends PassportStrategy(
 		const user: User = await this._userService.findOneByEmail(email);
 
 		if (!user) {
-			throw new UnauthorizedException();
+			throw new UnauthorizedException('Error: Unauthorized');
 		}
 
 		const refreshToken: string = req

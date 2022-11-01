@@ -4,6 +4,8 @@ import { MailerController } from './mailer.controller';
 import { MailerModule as MailerModuleNest } from '@nestjs-modules/mailer';
 import { join } from 'path';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { UserModule } from '../user/user.module';
+import { BullModule } from '@nestjs/bull';
 
 @Module({
 	imports: [
@@ -22,12 +24,17 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 			},
 			template: {
 				dir: join(__dirname, '../../../emails/templates'),
-				adapter: new HandlebarsAdapter(), // or new PugAdapter() or new EjsAdapter()
+				adapter: new HandlebarsAdapter(),
 				options: {
 					strict: true,
 				},
 			},
 		}),
+		// Redis connection for queues
+		BullModule.registerQueue({
+				name: 'emailSender',
+		}),
+		UserModule,
 	],
 	controllers: [MailerController],
 	providers: [MailerService],

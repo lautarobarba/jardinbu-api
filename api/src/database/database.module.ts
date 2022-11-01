@@ -14,7 +14,7 @@ import * as path from 'path';
 				password: process.env.DB_PASSWORD,
 				entities: [path.join(__dirname, '/../**/*.entity{.ts,.js}')],
 				migrations: [path.join(__dirname, '/migrations/*{.ts,.js}')],
-				logging: true,
+				logging: (process.env.DB_LOGGING === 'true') ? true : false,
 				synchronize: false,
 				migrationsRun: false,
 				autoLoadEntities: true,

@@ -3,22 +3,29 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	JoinColumn,
 	OneToMany,
+	OneToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Role } from '../auth/role.enum';
+import { ProfilePicture } from './profile-picture.entity';
 
-export enum EStatus {
+export enum Status {
 	ACTIVE = 'ACTIVE',
 	INACTIVE = 'INACTIVE',
 }
 
 @Entity('users')
 export class User extends BaseEntity {
+	@ApiProperty()
 	@PrimaryGeneratedColumn('increment')
 	id: number;
 
+	@ApiProperty()
 	@Column({
 		name: 'email',
 		type: 'varchar',
@@ -28,14 +35,43 @@ export class User extends BaseEntity {
 	})
 	email: string;
 
+	@ApiProperty()
 	@Column({
-		name: 'name',
+		name: 'is_email_confirmed',
+		type: 'boolean',
+		default: false
+	})
+	isEmailConfirmed: boolean;
+
+	@ApiProperty()
+	@Column({
+		name: 'firstname',
 		type: 'varchar',
 		nullable: false,
 		unique: false,
 		length: 255,
 	})
-	name: string;
+	firstname: string;
+
+	@ApiProperty()
+	@Column({
+		name: 'lastname',
+		type: 'varchar',
+		nullable: false,
+		unique: false,
+		length: 255,
+	})
+	lastname: string;
+
+	// Relation
+	@ApiProperty({
+		type: () => ProfilePicture,
+	})
+	@OneToOne(() => ProfilePicture, profilePicture => profilePicture.user)
+	@JoinColumn({
+		name: 'profile_picture_id',
+	})
+	profilePicture: ProfilePicture;
 
 	@Exclude()
 	@Column({
@@ -57,23 +93,39 @@ export class User extends BaseEntity {
 	})
 	refreshToken: string;
 
+	@ApiProperty()
 	@Column({
 		name: 'status',
 		type: 'enum',
-		enum: EStatus,
-		default: EStatus.ACTIVE,
+		enum: Status,
+		default: Status.ACTIVE,
+		nullable: false
 	})
 	status: string;
 
-	@Column({ name: 'is_admin', type: 'boolean', default: false })
-	isAdmin: boolean;
+	@ApiProperty()
+	@Column({
+		name: 'role',
+		type: 'enum',
+		enum: Role,
+		default: Role.USER,
+		nullable: false
+	})
+	role: Role
 
+	@ApiProperty()
 	@CreateDateColumn({ name: 'created_at' })
 	createdAt: Date;
 
+	@ApiProperty()
 	@UpdateDateColumn({ name: 'updated_at' })
 	updatedAt: Date;
 
-	@Column({ name: 'deleted', type: 'boolean', default: false })
+	@ApiProperty()
+	@Column({
+		name: 'deleted',
+		type: 'boolean',
+		default: false
+	})
 	deleted: boolean;
 }

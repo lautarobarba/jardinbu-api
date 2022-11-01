@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { UserDto } from '../user/user.dto';
 
 export class LoginDto {
 	@ApiProperty()
@@ -15,4 +14,17 @@ export class SessionDto {
 
 	@ApiProperty()
 	refreshToken: string;
+}
+
+export class ChangePasswordDto {
+	@ApiProperty()
+	id: number;
+
+	@ApiProperty()
+	newPassword: string;
+}
+
+export class RecoverPasswordDto {
+	@ApiProperty()
+	email: string;
 }
