@@ -2,6 +2,7 @@ import { Controller, Get, Logger } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AppService } from 'app.service';
 
+
 @Controller()
 export class AppController {
 	constructor(private readonly _appService: AppService) { }
