@@ -120,6 +120,32 @@ export class AuthController {
 		return this._authService.login(loginDto);
 	}
 
+	@Get('user')
+	@UseGuards(JwtAuthenticationGuard)
+	@ApiBearerAuth()
+	@UseInterceptors(ClassSerializerInterceptor)
+	@ApiResponse({
+		status: HttpStatus.OK,
+		type: User
+	})
+	@ApiResponse({
+		status: HttpStatus.NOT_FOUND,
+		description: 'Error: Not Found',
+	})
+	@ApiResponse({
+		status: HttpStatus.UNAUTHORIZED,
+		description: 'Error: Unauthorized'
+	})
+	async getAuthUser(
+		@Req() request: Request,
+		@Res({ passthrough: true }) response: Response,
+	): Promise<User> {
+		this._logger.debug('GET: /api/auth/user');
+		const user: User = await this._userService.getUserFromRequest(request);
+		response.status(HttpStatus.OK);
+		return this._authService.getAuthUser(user);
+	}
+
 	@Post('logout')
 	@UseGuards(JwtAuthenticationGuard)
 	@ApiBearerAuth()

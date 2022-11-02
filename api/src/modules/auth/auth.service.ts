@@ -85,6 +85,11 @@ export class AuthService {
 		return tokens;
 	}
 
+	async getAuthUser(user: User): Promise<User> {
+		this._logger.debug('getAuthUser()');
+		return this._userService.findOne(user.id);
+	}
+
 	async refreshTokens(id: number, refreshToken: string) {
 		this._logger.debug('refreshTokens()');
 		const user = await this._userService.findOne(id);
