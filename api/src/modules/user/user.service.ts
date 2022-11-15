@@ -43,42 +43,9 @@ export class UserService {
 			exists.firstname = firstname;
 			exists.lastname = lastname;
 			exists.password = password;
+			exists.profilePicture = null;
 			exists.deleted = false;
 			exists.updatedAt = timestamp;
-
-			// Actualizo foto de perfil
-			// Primero reviso si existía una foto de perfil previa y la marco como eliminada.
-			if (createUserDto.profilePicture) {
-				// Si recibí una nueva foto de perfil
-				// 1° Elimino la vieja
-				if (exists.profilePicture) {
-					const oldProfilePicture = await this._profilePictureRepository.findOne({
-						where: { id: exists.profilePicture.id },
-					});
-					oldProfilePicture.deleted = true;
-					oldProfilePicture.updatedAt = timestamp;
-					await this._profilePictureRepository.save(oldProfilePicture);
-				}
-
-				// 2° Voy a mover la imagen desde la carpeta temporal donde la recibí
-				const imgSource = createUserDto.profilePicture.path;
-				const imgDestination = imgSource.replace('temp', 'profile-pictures');
-				mv(imgSource, imgDestination, { mkdirp: true }, (err: Error) => {
-					console.log(err);
-				});
-
-				// 3° La guardo en la DB
-				const newProfilePicture: ProfilePicture = this._profilePictureRepository.create();
-				newProfilePicture.fileName = createUserDto.profilePicture.filename;
-				newProfilePicture.path = imgDestination;
-				newProfilePicture.mimetype = createUserDto.profilePicture.mimetype;
-				newProfilePicture.originalName = createUserDto.profilePicture.originalname;
-
-				// 4° Asigno la nueva al usuario
-				exists.profilePicture = await this._profilePictureRepository.save(newProfilePicture);
-			} else {
-				exists.profilePicture = null;
-			}
 
 			// Controlo que el modelo no tenga errores antes de guardar
 			const errors = await validate(exists);
@@ -101,27 +68,6 @@ export class UserService {
 		user.role = Role.USER;
 		user.updatedAt = timestamp;
 		user.createdAt = timestamp;
-
-		// Guardo la foto de perfil
-		if (createUserDto.profilePicture) {
-
-			// 1° Voy a mover la imagen desde la carpeta temporal donde la recibí
-			const imgSource = createUserDto.profilePicture.path;
-			const imgDestination = imgSource.replace('temp', 'profile-pictures');
-			mv(imgSource, imgDestination, { mkdirp: true }, (err: Error) => {
-				console.log(err);
-			});
-
-			// 2° La guardo en la DB
-			const newProfilePicture: ProfilePicture = this._profilePictureRepository.create();
-			newProfilePicture.fileName = createUserDto.profilePicture.filename;
-			newProfilePicture.path = imgDestination;
-			newProfilePicture.mimetype = createUserDto.profilePicture.mimetype;
-			newProfilePicture.originalName = createUserDto.profilePicture.originalname;
-
-			// 3° Asigno la nueva al usuario
-			user.profilePicture = await this._profilePictureRepository.save(newProfilePicture);
-		}
 
 		// Controlo que el modelo no tenga errores antes de guardar
 		const errors = await validate(user);

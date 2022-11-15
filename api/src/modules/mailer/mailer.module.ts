@@ -32,7 +32,7 @@ import { BullModule } from '@nestjs/bull';
 		}),
 		// Redis connection for queues
 		BullModule.registerQueue({
-				name: 'emailSender',
+			name: 'emailSender',
 		}),
 		UserModule,
 	],
@@ -40,4 +40,4 @@ import { BullModule } from '@nestjs/bull';
 	providers: [MailerService],
 	exports: [MailerService],
 })
-export class MailerModule {}
+export class MailerModule { }

@@ -41,24 +41,6 @@ export class AuthController {
 
 	@Post('register')
 	@UseInterceptors(ClassSerializerInterceptor)
-	@UseInterceptors(LocalFilesInterceptor({
-		fieldName: 'profilePicture',
-		path: '/temp',
-		fileFilter: (request, file, callback) => {
-			if (!file.mimetype.includes('image')) {
-				return callback(new BadRequestException('Invalid image file'), false);
-			}
-			callback(null, true);
-		},
-		limits: {
-			fileSize: (1024 * 1024 * 10) // 10MB
-		}
-	}))
-	@ApiConsumes('multipart/form-data')
-	@ApiBody({
-		description: 'User attributes',
-		type: CreateUserDto,
-	})
 	@ApiResponse({
 		status: HttpStatus.CREATED,
 		type: SessionDto,
@@ -71,23 +53,15 @@ export class AuthController {
 		status: HttpStatus.NOT_ACCEPTABLE,
 		description: 'Error: Not Acceptable',
 	})
-	@ApiResponse({
-		status: HttpStatus.PAYLOAD_TOO_LARGE,
-		description: 'Error: Payload Too Large',
-	})
 	async register(
 		@Req() request: Request,
 		@Res({ passthrough: true }) response: Response,
 		@Body() createUserDto: CreateUserDto,
-		@UploadedFile() profilePicture?: Express.Multer.File,
 	): Promise<SessionDto> {
 		this._logger.debug('POST: /api/auth/register');
 		// Urls que necesito para los correos
 		const ulrToImportCssInEmail: string = `${request.protocol}://host.docker.internal:${process.env.BACK_PORT}`;
 		const ulrToImportImagesInEmail: string = `${request.protocol}://${request.get('Host')}`;
-
-		// Agrego la foto de perfil al DTO para enviarlo al service
-		createUserDto.profilePicture = profilePicture;
 
 		response.status(HttpStatus.CREATED);
 		return this._authService.register(

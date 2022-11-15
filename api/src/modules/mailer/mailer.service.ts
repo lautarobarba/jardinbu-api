@@ -69,6 +69,7 @@ export class MailerService {
 		ulrToImportCssInEmail: string,
 		ulrToImportImagesInEmail: string,
 		userEmail: string,
+		accessToken: string,
 		overwriteEmail?: string
 	) {
 		this._logger.debug('sendRegistrationEmail()');
@@ -83,6 +84,7 @@ export class MailerService {
 			ulrToImportCssInEmail: ulrToImportCssInEmail,
 			ulrToImportImagesInEmail: ulrToImportImagesInEmail,
 			user: user,
+			accessToken,
 			mailbox: overwriteEmail ?? userEmail,
 		});
 
@@ -96,19 +98,23 @@ export class MailerService {
 	@Process('handleSendRegistrationEmail')
 	async handleSendRegistrationEmail(job: Job) {
 		this._logger.debug('handleSendRegistrationEmail()');
-		const { ulrToImportCssInEmail, ulrToImportImagesInEmail, user, mailbox } = job.data;
+		const { ulrToImportCssInEmail, ulrToImportImagesInEmail, user, accessToken, mailbox } = job.data;
 		this._logger.debug(`handleSendRegistrationEmail: BEGIN Enviando correo a- ${mailbox}`);
+
+		// Ruta para confirmar el correo electrónico en el frontend
+		const emailConfirmationUrl: string = `${process.env.EMAIL_CONFIRMATION_URL}/${accessToken}`;
 
 		try {
 			await this._mailerServiceNode.sendMail({
 				to: mailbox,
 				// from: '"Support Team" <support@example.com>', // override default from
-				subject: 'TITULO: Registro',
+				subject: 'Registro Jardín Botánico Ushuaia',
 				template: './registration', // `.hbs` extension is appended automatically
 				context: {
 					ulrToImportCssInEmail: ulrToImportCssInEmail,
 					ulrToImportImagesInEmail: ulrToImportImagesInEmail,
-					user: user
+					user: user,
+					emailConfirmationUrl
 				},
 			});
 			this._logger.debug(`handleSendRegistrationEmail: END Enviando correo a- ${mailbox}`);

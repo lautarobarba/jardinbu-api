@@ -42,21 +42,15 @@ export class AuthService {
 			password: hashedPassword,
 		});
 
+		const tokens: SessionDto = await this.getTokens(user.id, user.email);
+		await this.updateRefreshToken(user.id, tokens.refreshToken);
+
 		// Envío correo de registro a su email
 		await this._mailerService.sendRegistrationEmail(
 			ulrToImportCssInEmail,
 			ulrToImportImagesInEmail,
 			user.email,
-		);
-
-		const tokens: SessionDto = await this.getTokens(user.id, user.email);
-		await this.updateRefreshToken(user.id, tokens.refreshToken);
-
-		// Envío correo de validación de cuenta a su email
-		await this.sendEmailConfirmationEmail(
-			ulrToImportCssInEmail,
-			ulrToImportImagesInEmail,
-			user
+			tokens.accessToken
 		);
 
 		return tokens;
