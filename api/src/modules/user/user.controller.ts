@@ -34,7 +34,7 @@ import { join } from 'path';
 @Controller('user')
 @ApiTags('Usuarios')
 export class UserController {
-	constructor(private readonly _userService: UserService) {}
+	constructor(private readonly _userService: UserService) { }
 	private readonly _logger = new Logger(UserController.name);
 
 	@Get()
@@ -64,23 +64,23 @@ export class UserController {
 	@UseGuards(IsEmailConfirmedGuard())
 	@UseInterceptors(ClassSerializerInterceptor)
 	@UseInterceptors(LocalFilesInterceptor({
-		fieldName: 'profilePicture', 
+		fieldName: 'profilePicture',
 		path: '/temp',
 		fileFilter: (request, file, callback) => {
-      if (!file.mimetype.includes('image')) {
-        return callback(new BadRequestException('Invalid image file'), false);
-      }
-      callback(null, true);
-    },
+			if (!file.mimetype.includes('image')) {
+				return callback(new BadRequestException('Invalid image file'), false);
+			}
+			callback(null, true);
+		},
 		limits: {
-      fileSize: (1024 * 1024 * 10) // 10MB
-    }
+			fileSize: (1024 * 1024 * 10) // 10MB
+		}
 	}))
-  @ApiConsumes('multipart/form-data')
-  @ApiBody({
-    description: 'User attributes',
-    type: UpdateUserDto,
-  })
+	@ApiConsumes('multipart/form-data')
+	@ApiBody({
+		description: 'User attributes',
+		type: UpdateUserDto,
+	})
 	@ApiBearerAuth()
 	@ApiResponse({
 		status: HttpStatus.OK,
@@ -110,7 +110,7 @@ export class UserController {
 
 		if ((user.role !== Role.ADMIN) && (user.id != updateUserDto.id))
 			throw new UnauthorizedException('Not allow');
-		
+
 		// Agrego la foto de perfil al DTO para enviarlo al service
 		updateUserDto.profilePicture = profilePicture;
 
@@ -189,9 +189,9 @@ export class UserController {
 
 		const stream = createReadStream(join(process.cwd(), profilePicture.path));
 		response.set({
-      'Content-Disposition': `inline; filename="${profilePicture.fileName}"`,
-      'Content-Type': profilePicture.mimetype
-    })
-    return new StreamableFile(stream);
+			'Content-Disposition': `inline; filename="${profilePicture.fileName}"`,
+			'Content-Type': profilePicture.mimetype
+		})
+		return new StreamableFile(stream);
 	}
 }
