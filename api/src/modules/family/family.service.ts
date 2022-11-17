@@ -1,6 +1,7 @@
 import {
 	ConflictException,
 	Injectable,
+	Logger,
 	NotAcceptableException,
 	NotFoundException,
 } from '@nestjs/common';
@@ -16,7 +17,8 @@ export class FamilyService {
 	constructor(
 		@InjectRepository(Family)
 		private readonly _familyRepository: Repository<Family>
-	) {}
+	) { }
+	private readonly _logger = new Logger(FamilyService.name);
 
 	async create(createFamilyDto: CreateFamilyDto): Promise<Family> {
 		const { name, description } = createFamilyDto;
@@ -33,9 +35,9 @@ export class FamilyService {
 
 		// Si existe pero estaba borrado lógico entonces lo recupero
 		if (exists && exists.deleted) {
-			exists.deleted = false;
 			exists.description = description;
 			exists.updatedAt = timestamp;
+			exists.deleted = false;
 
 			// Controlo que el modelo no tenga errores antes de guardar
 			const errors = await validate(exists);
@@ -48,8 +50,9 @@ export class FamilyService {
 		const family: Family = await this._familyRepository.create();
 		family.name = name;
 		family.description = description;
-		family.updatedAt = timestamp;
 		family.createdAt = timestamp;
+		family.updatedAt = timestamp;
+		family.deleted = false;
 
 		// Controlo que el modelo no tenga errores antes de guardar
 		const errors = await validate(family);
@@ -59,6 +62,7 @@ export class FamilyService {
 	}
 
 	async findAll(): Promise<Family[]> {
+		this._logger.debug('findAll()');
 		return this._familyRepository.find({
 			where: { deleted: false },
 			order: { id: 'ASC' },
@@ -66,6 +70,7 @@ export class FamilyService {
 	}
 
 	async findOne(id: number): Promise<Family> {
+		this._logger.debug('findOne()');
 		const family: Family = await this._familyRepository.findOne({
 			where: { id },
 		});
