@@ -13,7 +13,7 @@ import {
 	UpdateDateColumn,
 } from 'typeorm';
 import { Genus } from '../genus/genus.entity';
-import { Specimen } from 'modules/specimen/specimen.entity';
+import { Specimen } from '../specimen/specimen.entity';
 
 
 export enum Status {
