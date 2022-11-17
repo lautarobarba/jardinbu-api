@@ -41,8 +41,8 @@ export class UpdateSpeciesDto {
 	@ApiProperty()
 	id: number;
 
-	@ApiProperty()
-	scientificName: string;
+	@ApiPropertyOptional()
+	scientificName?: string;
 
 	@ApiPropertyOptional()
 	commonName?: string;

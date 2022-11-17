@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Specimen } from '../specimen/specimen.dto';
 import { Picture } from '../utils/picture.entity';
 import {
 	BaseEntity,
@@ -14,6 +13,7 @@ import {
 	UpdateDateColumn,
 } from 'typeorm';
 import { Genus } from '../genus/genus.entity';
+import { Specimen } from 'modules/specimen/specimen.entity';
 
 
 export enum Status {
@@ -139,7 +139,6 @@ export class Species extends BaseEntity {
 	deleted: boolean;
 
 	// Relation
-	// TODO: ARREGLAR ESTO
-	// @OneToMany(() => Specimen, specimen => specimen.species)
+	@OneToMany(() => Specimen, specimen => specimen.species)
 	specimens: Specimen[];
 }

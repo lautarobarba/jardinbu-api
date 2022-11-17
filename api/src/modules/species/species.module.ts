@@ -16,5 +16,6 @@ import { UtilsModule } from 'modules/utils/utils.module';
 	],
 	controllers: [SpeciesController],
 	providers: [SpeciesService],
+	exports: [SpeciesService],
 })
 export class SpeciesModule { }

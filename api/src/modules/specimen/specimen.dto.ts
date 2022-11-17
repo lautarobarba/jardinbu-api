@@ -1,1 +1,39 @@
-export class Specimen {}
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Express } from 'express';
+
+export class CreateSpecimenDto {
+	@ApiProperty()
+	name: string;
+
+	@ApiPropertyOptional()
+	description?: string;
+
+	@ApiPropertyOptional()
+	speciesId?: number;
+
+	@ApiPropertyOptional()
+	coordLat?: string;
+
+	@ApiPropertyOptional()
+	coordLon?: string;
+}
+
+export class UpdateSpecimenDto {
+	@ApiProperty()
+	id: number;
+
+	@ApiProperty()
+	name?: string;
+
+	@ApiPropertyOptional()
+	description?: string;
+
+	@ApiPropertyOptional()
+	speciesId?: number;
+
+	@ApiPropertyOptional()
+	coordLat?: string;
+
+	@ApiPropertyOptional()
+	coordLon?: string;
+}

@@ -11,8 +11,8 @@ import { CronModule } from './modules/cron/cron.module';
 import { FamilyModule } from './modules/family/family.module';
 import { GenusModule } from './modules/genus/genus.module';
 import { SpeciesModule } from './modules/species/species.module';
-import { UtilsModule } from 'modules/utils/utils.module';
-// import { SpecimenModule } from './modules/specimen/specimen.module';
+import { UtilsModule } from './modules/utils/utils.module';
+import { SpecimenModule } from './modules/specimen/specimen.module';
 
 
 @Module({
@@ -41,7 +41,7 @@ import { UtilsModule } from 'modules/utils/utils.module';
 		FamilyModule,
 		GenusModule,
 		SpeciesModule,
-		// SpecimenModule,
+		SpecimenModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],
