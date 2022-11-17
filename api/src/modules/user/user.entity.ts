@@ -12,7 +12,7 @@ import {
 import { Exclude } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Role } from '../auth/role.enum';
-import { ProfilePicture } from './profile-picture.entity';
+import { Picture } from 'modules/utils/picture.entity';
 
 export enum Status {
 	ACTIVE = 'ACTIVE',
@@ -65,13 +65,13 @@ export class User extends BaseEntity {
 
 	// Relation
 	@ApiProperty({
-		type: () => ProfilePicture,
+		type: () => Picture,
 	})
-	@OneToOne(() => ProfilePicture, profilePicture => profilePicture.user)
+	@OneToOne(() => Picture, picture => picture.user)
 	@JoinColumn({
 		name: 'profile_picture_id',
 	})
-	profilePicture: ProfilePicture;
+	profilePicture: Picture;
 
 	@Exclude()
 	@Column({
@@ -101,7 +101,7 @@ export class User extends BaseEntity {
 		default: Status.ACTIVE,
 		nullable: false
 	})
-	status: string;
+	status: Status;
 
 	@ApiProperty()
 	@Column({

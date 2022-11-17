@@ -10,15 +10,16 @@ import * as fs from 'fs';
 import { validate } from 'class-validator';
 import { Role } from '../auth/role.enum';
 import { IJWTPayload } from 'modules/auth/jwt-payload.interface';
-import { ProfilePicture } from './profile-picture.entity';
+import { Picture } from 'modules/utils/picture.entity';
+
 
 @Injectable()
 export class UserService {
 	constructor(
 		@InjectRepository(User)
 		private readonly _userRepository: Repository<User>,
-		@InjectRepository(ProfilePicture)
-		private readonly _profilePictureRepository: Repository<ProfilePicture>
+		// @InjectRepository(Picture)
+		// private readonly _profilePictureRepository: Repository<Picture>
 	) { }
 	private readonly _logger = new Logger(UserService.name);
 
@@ -147,12 +148,12 @@ export class UserService {
 			// Si recibí una nueva foto de perfil
 			// 1° Elimino la vieja
 			if (user.profilePicture) {
-				const oldProfilePicture = await this._profilePictureRepository.findOne({
-					where: { id: user.profilePicture.id },
-				});
-				oldProfilePicture.deleted = true;
-				oldProfilePicture.updatedAt = timestamp;
-				await this._profilePictureRepository.save(oldProfilePicture);
+				// const oldProfilePicture = await this._profilePictureRepository.findOne({
+				// 	where: { id: user.profilePicture.id },
+				// });
+				// oldProfilePicture.deleted = true;
+				// oldProfilePicture.updatedAt = timestamp;
+				// await this._profilePictureRepository.save(oldProfilePicture);
 			}
 
 			// 2° Voy a mover la imagen desde la carpeta temporal donde la recibí
@@ -162,15 +163,15 @@ export class UserService {
 				console.log(err);
 			});
 
-			// 3° La guardo en la DB
-			const newProfilePicture: ProfilePicture = this._profilePictureRepository.create();
-			newProfilePicture.fileName = updateUserDto.profilePicture.filename;
-			newProfilePicture.path = imgDestination;
-			newProfilePicture.mimetype = updateUserDto.profilePicture.mimetype;
-			newProfilePicture.originalName = updateUserDto.profilePicture.originalname;
+			// // 3° La guardo en la DB
+			// const newProfilePicture: Picture = this._profilePictureRepository.create();
+			// newProfilePicture.fileName = updateUserDto.profilePicture.filename;
+			// newProfilePicture.path = imgDestination;
+			// newProfilePicture.mimetype = updateUserDto.profilePicture.mimetype;
+			// newProfilePicture.originalName = updateUserDto.profilePicture.originalname;
 
-			// 4° Asigno la nueva al usuario
-			user.profilePicture = await this._profilePictureRepository.save(newProfilePicture);
+			// // 4° Asigno la nueva al usuario
+			// user.profilePicture = await this._profilePictureRepository.save(newProfilePicture);
 		}
 
 		// Controlo que el modelo no tenga errores antes de guardar
@@ -250,32 +251,32 @@ export class UserService {
 		return user;
 	}
 
-	async getProfilePicture(id: number): Promise<ProfilePicture> {
-		this._logger.debug('getProfilePicture()');
-		const profilePicture: ProfilePicture = await this._profilePictureRepository.findOne({
-			where: { id },
-		});
+	// async getProfilePicture(id: number): Promise<Picture> {
+	// 	this._logger.debug('getProfilePicture()');
+	// 	const profilePicture: Picture = await this._profilePictureRepository.findOne({
+	// 		where: { id },
+	// 	});
 
-		if (!profilePicture) throw new NotFoundException('Error: Not Found');
+	// 	if (!profilePicture) throw new NotFoundException('Error: Not Found');
 
-		return profilePicture;
-	}
+	// 	return profilePicture;
+	// }
 
-	async deleteUselessProfilePictures() {
-		this._logger.debug('deleteUselessProfilePictures()');
-		const profilePictures: ProfilePicture[] = await this._profilePictureRepository.find({
-			where: { deleted: true, fileDeleted: false },
-		});
+	// async deleteUselessProfilePictures() {
+	// 	this._logger.debug('deleteUselessProfilePictures()');
+	// 	const profilePictures: Picture[] = await this._profilePictureRepository.find({
+	// 		where: { deleted: true, fileDeleted: false },
+	// 	});
 
-		// console.log(profilePictures);
-		profilePictures.forEach(async (pp) => {
-			const timestamp: any = moment().format('YYYY-MM-DD HH:mm:ss');
-			fs.unlink(pp.path, (err: Error) => {
-				if (err) console.log(err);
-			});
-			pp.fileDeleted = true;
-			pp.updatedAt = timestamp;
-			await this._profilePictureRepository.save(pp);
-		});
-	}
+	// 	// console.log(profilePictures);
+	// 	profilePictures.forEach(async (pp) => {
+	// 		const timestamp: any = moment().format('YYYY-MM-DD HH:mm:ss');
+	// 		fs.unlink(pp.path, (err: Error) => {
+	// 			if (err) console.log(err);
+	// 		});
+	// 		pp.fileDeleted = true;
+	// 		pp.updatedAt = timestamp;
+	// 		await this._profilePictureRepository.save(pp);
+	// 	});
+	// }
 }

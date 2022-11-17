@@ -1,6 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Role } from '../auth/role.enum';
 import { Express } from 'express';
+import { Status } from './user.entity';
 
 export class CreateUserDto {
 	@ApiProperty()
@@ -39,7 +40,7 @@ export class UpdateUserDto {
 	profilePicture?: Express.Multer.File;
 
 	@ApiPropertyOptional()
-	status?: string;
+	status?: Status;
 
 	@ApiPropertyOptional()
 	role?: Role;

@@ -48,6 +48,6 @@ export class Family extends BaseEntity {
 	deleted: boolean;
 
 	// Relation
-	@OneToMany(() => Genus, genus => genus.family)
+	@OneToMany(() => Genus, genera => genera.family)
 	genera: Genus[];
 }

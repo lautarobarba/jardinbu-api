@@ -8,11 +8,12 @@ import {
 	UpdateDateColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { User } from './user.entity';
+import { User } from 'modules/user/user.entity';
+import { Species } from 'modules/species/species.entity';
 
 
-@Entity('profile_pictures')
-export class ProfilePicture extends BaseEntity {
+@Entity('pictures')
+export class Picture extends BaseEntity {
 	@ApiProperty()
 	@PrimaryGeneratedColumn('increment')
 	id: number;
@@ -63,22 +64,30 @@ export class ProfilePicture extends BaseEntity {
 	updatedAt: Date;
 
 	@ApiProperty()
-	@Column({ 
-		name: 'deleted', 
-		type: 'boolean', 
-		default: false 
+	@Column({
+		name: 'deleted',
+		type: 'boolean',
+		default: false
 	})
 	deleted: boolean;
 
 	@ApiProperty()
-	@Column({ 
-		name: 'file_deleted', 
-		type: 'boolean', 
-		default: false 
+	@Column({
+		name: 'file_deleted',
+		type: 'boolean',
+		default: false
 	})
 	fileDeleted: boolean;
 
 	// Relation
 	@OneToOne(() => User, user => user.profilePicture)
 	user: User;
+
+	// Relation
+	@OneToOne(() => Species, species => species.exampleImg)
+	speciesExample: Species;
+
+	// Relation
+	@OneToOne(() => Species, species => species.foliageImg)
+	speciesFoliage: Species;
 }

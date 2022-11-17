@@ -18,15 +18,15 @@ export class SpeciesService {
 		@InjectRepository(Species)
 		private readonly _speciesRepository: Repository<Species>,
 		private readonly _genusService: GenusService
-	) {}
+	) { }
 
 	async create(createSpeciesDto: CreateSpeciesDto): Promise<Species> {
-		const { name, description, genusId, distribution } = createSpeciesDto;
+		const { scientificName, description, genusId, distribution } = createSpeciesDto;
 		const timestamp: any = moment().format('YYYY-MM-DD HH:mm:ss');
 
 		// Controlo que la nueva especie no exista
 		const exists: Species = await this._speciesRepository.findOne({
-			where: { name },
+			where: { scientificName },
 		});
 
 		// Si existe y no esta borrado lógico entonces hay conflictos
@@ -37,7 +37,7 @@ export class SpeciesService {
 		if (exists && exists.deleted) {
 			exists.description = description;
 			exists.genus = await this._genusService.findOne(genusId);
-			exists.distribution = distribution;
+			// exists.distribution = distribution;
 			exists.deleted = false;
 			exists.updatedAt = timestamp;
 
@@ -50,10 +50,10 @@ export class SpeciesService {
 
 		// Si no existe entonces creo uno nuevo
 		const species: Species = await this._speciesRepository.create();
-		species.name = name;
+		// species.name = name;
 		species.description = description;
 		species.genus = await this._genusService.findOne(genusId);
-		species.distribution = distribution;
+		// species.distribution = distribution;
 		species.updatedAt = timestamp;
 		species.createdAt = timestamp;
 
@@ -95,7 +95,7 @@ export class SpeciesService {
 		// Controlo que las claves no estén en uso
 		if (name) {
 			const exists: Species = await this._speciesRepository.findOne({
-				where: { name },
+				// where: { name },
 			});
 
 			// Si existe y no esta borrado lógico entonces hay conflictos
@@ -104,10 +104,10 @@ export class SpeciesService {
 		}
 
 		// Si no hay problemas actualizo los atributos
-		if (name) species.name = name;
+		// if (name) species.name = name;
 		if (description) species.description = description;
 		if (genusId) species.genus = await this._genusService.findOne(genusId);
-		if (distribution) species.distribution = distribution;
+		// if (distribution) species.distribution = distribution;
 		species.updatedAt = timestamp;
 
 		// Controlo que el modelo no tenga errores antes de guardar

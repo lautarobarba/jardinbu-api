@@ -1,73 +1,80 @@
-// import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { ApiProperty } from '@nestjs/swagger';
+import { Species } from 'modules/species/species.entity';
+import {
+	BaseEntity,
+	Column,
+	CreateDateColumn,
+	Entity,
+	JoinColumn,
+	ManyToOne,
+	OneToOne,
+	PrimaryGeneratedColumn,
+	UpdateDateColumn,
+} from 'typeorm';
 
-// @Entity('specimen')
-// export class Specimen extends BaseEntity {
-// 	@PrimaryGeneratedColumn('increment')
-// 	id: number;
 
-// 	@Column({
-// 		name: 'email',
-// 		type: 'varchar',
-// 		nullable: false,
-// 		unique: true,
-// 		length: 255,
-// 	})
-// 	descripcion: string;
+@Entity('specimens')
+export class Specimen extends BaseEntity {
+	@ApiProperty()
+	@PrimaryGeneratedColumn('increment')
+	id: number;
 
-// 	@Column({
-// 		name: 'name',
-// 		type: 'varchar',
-// 		nullable: false,
-// 		unique: false,
-// 		length: 255,
-// 	})
-// 	name: string;
+	@ApiProperty()
+	@Column({
+		name: 'name',
+		type: 'varchar',
+		nullable: false,
+		unique: true,
+		length: 255,
+	})
+	name: string;
 
-// 	@Exclude()
-// 	@Column({
-// 		name: 'password',
-// 		type: 'varchar',
-// 		nullable: false,
-// 		unique: false,
-// 		limport { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+	@ApiProperty()
+	@Column({
+		name: 'description',
+		type: 'text',
+		nullable: true,
+		unique: false,
+	})
+	description: string;
 
-// 		@Entity('specimen')
-// 		export class Specimen extends BaseEntity {
-// 			@PrimaryGeneratedColumn('increment')
-// 			id: number;
-		
-// 			@Column({
-// 				nength: 255,
-// 	})
-// 	password: string;
+	// Relation
+	@ApiProperty({
+		type: () => Species,
+	})
+	@ManyToOne(() => Species, species => species.specimens)
+	@JoinColumn({
+		name: 'species_id',
+	})
+	species: Species;
 
-// 	@Exclude()
-// 	@Column({
-// 		name: 'refresh_token',
-// 		type: 'varchar',
-// 		nullable: true,
-// 		unique: false,
-// 		length: 255,
-// 	})
-// 	refreshToken: string;
+	@ApiProperty()
+	@Column({
+		name: 'coord_lat',
+		type: 'varchar',
+		nullable: true,
+		unique: false,
+	})
+	coordLat: string;
 
-// 	@Column({
-// 		name: 'status',
-// 		type: 'enum',
-// 		enum: EStatus,
-// 		default: EStatus.ACTIVE,
-// 	})
-// 	status: string;
+	@ApiProperty()
+	@Column({
+		name: 'coord_lon',
+		type: 'varchar',
+		nullable: true,
+		unique: false,
+	})
+	coordLon: string;
 
-// 	@Column({ name: 'is_admin', type: 'boolean', default: false })
-// 	isAdmin: boolean;
+	@ApiProperty()
+	@CreateDateColumn({ name: 'created_at' })
+	createdAt: Date;
 
-// 	@CreateDateColumn()
-// 	created: Date;
+	@ApiProperty()
+	@UpdateDateColumn({ name: 'updated_at' })
+	updatedAt: Date;
 
-// 	@UpdateDateColumn()
-// 	updated: Date;
-
-// 	@Column({ name: 'deleted', type: 'boolean', default: false })
-// 	deleted: boolean;
-// }
+	@ApiProperty()
+	@Column({ name: 'deleted', type: 'boolean', default: false })
+	deleted: boolean;
+}

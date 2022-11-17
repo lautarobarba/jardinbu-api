@@ -3,7 +3,7 @@ import { Genus } from '../genus/genus.entity';
 
 export class CreateSpeciesDto {
 	@ApiProperty()
-	name: string;
+	scientificName: string;
 
 	@ApiPropertyOptional()
 	description?: string;

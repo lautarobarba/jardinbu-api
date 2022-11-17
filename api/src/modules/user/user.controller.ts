@@ -26,9 +26,9 @@ import { RoleGuard } from 'modules/auth/guards/role.guard';
 import { Role } from '../auth/role.enum';
 import { IsEmailConfirmedGuard } from 'modules/auth/guards/is-email-confirmed.guard';
 import { LocalFilesInterceptor } from 'modules/utils/localFiles.interceptor';
-import { ProfilePicture } from './profile-picture.entity';
 import { createReadStream } from 'fs';
 import { join } from 'path';
+import { Picture } from 'modules/utils/picture.entity';
 
 
 @Controller('user')
@@ -185,13 +185,14 @@ export class UserController {
 		@Param('id') id: number
 	): Promise<StreamableFile> {
 		this._logger.debug('GET: /api/user/profile-picture/:id');
-		const profilePicture: ProfilePicture = await this._userService.getProfilePicture(id);
+		// const profilePicture: Picture = await this._userService.getProfilePicture(id);
 
-		const stream = createReadStream(join(process.cwd(), profilePicture.path));
-		response.set({
-			'Content-Disposition': `inline; filename="${profilePicture.fileName}"`,
-			'Content-Type': profilePicture.mimetype
-		})
-		return new StreamableFile(stream);
+		// const stream = createReadStream(join(process.cwd(), profilePicture.path));
+		// response.set({
+		// 	'Content-Disposition': `inline; filename="${profilePicture.fileName}"`,
+		// 	'Content-Type': profilePicture.mimetype
+		// })
+		// return new StreamableFile(stream);
+		return new StreamableFile(null);
 	}
 }

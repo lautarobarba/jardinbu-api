@@ -1,4 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Specimen } from 'modules/specimen/specimen.dto';
+import { Picture } from 'modules/utils/picture.entity';
 import {
 	BaseEntity,
 	Column,
@@ -6,10 +8,28 @@ import {
 	Entity,
 	JoinColumn,
 	ManyToOne,
+	OneToMany,
+	OneToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm';
 import { Genus } from '../genus/genus.entity';
+
+
+export enum Status {
+	PRESENT = 'PRESENT',
+	ABSENT = 'ABSENT',
+	EXTINCT = 'EXTINCT',
+}
+
+export enum Origin {
+	NATIVE = 'NATIVE',
+	INTRODUCED = 'INTRODUCED',
+}
+
+export enum FoliageType {
+	PERENNE = 'PERENNE',
+}
 
 @Entity('species')
 export class Species extends BaseEntity {
@@ -19,13 +39,23 @@ export class Species extends BaseEntity {
 
 	@ApiProperty()
 	@Column({
-		name: 'name',
+		name: 'scientific_name',
 		type: 'varchar',
 		nullable: false,
 		unique: true,
 		length: 255,
 	})
-	name: string;
+	scientificName: string;
+
+	@ApiProperty()
+	@Column({
+		name: 'common_name',
+		type: 'varchar',
+		nullable: false,
+		unique: true,
+		length: 255,
+	})
+	commonName: string;
 
 	@ApiProperty()
 	@Column({
@@ -48,33 +78,53 @@ export class Species extends BaseEntity {
 
 	@ApiProperty()
 	@Column({
-		name: 'distribution',
-		type: 'varchar',
-		nullable: true,
-		unique: false,
-		length: 255,
+		name: 'status',
+		type: 'enum',
+		enum: Status,
+		default: Status.PRESENT,
+		nullable: true
 	})
-	distribution: string;
+	status: Status;
 
-	// @ApiProperty()
-	// @Column({
-	// 	name: 'example_img',
-	// 	type: 'varchar',
-	// 	nullable: true,
-	// 	unique: false,
-	// 	length: 255,
-	// })
-	// example_img: string;
+	@ApiProperty()
+	@Column({
+		name: 'origin',
+		type: 'enum',
+		enum: Origin,
+		default: Origin.NATIVE,
+		nullable: true
+	})
+	origin: Origin;
 
-	// @ApiProperty()
-	// @Column({
-	// 	name: 'foliage_img',
-	// 	type: 'varchar',
-	// 	nullable: true,
-	// 	unique: false,
-	// 	length: 255,
-	// })
-	// foliage_img: string;
+	// Relation
+	@ApiProperty({
+		type: () => Picture,
+	})
+	@OneToOne(() => Picture, picture => picture.speciesExample)
+	@JoinColumn({
+		name: 'example_img',
+	})
+	exampleImg: Picture;
+
+	@ApiProperty()
+	@Column({
+		name: 'foliage_type',
+		type: 'enum',
+		enum: FoliageType,
+		default: FoliageType.PERENNE,
+		nullable: true
+	})
+	foliageType: FoliageType;
+
+	// Relation
+	@ApiProperty({
+		type: () => Picture,
+	})
+	@OneToOne(() => Picture, picture => picture.speciesFoliage)
+	@JoinColumn({
+		name: 'foliage_img',
+	})
+	foliageImg: Picture;
 
 	@ApiProperty()
 	@CreateDateColumn({ name: 'created_at' })
@@ -87,4 +137,9 @@ export class Species extends BaseEntity {
 	@ApiProperty()
 	@Column({ name: 'deleted', type: 'boolean', default: false })
 	deleted: boolean;
+
+	// Relation
+	// TODO: ARREGLAR ESTO
+	// @OneToMany(() => Specimen, specimen => specimen.species)
+	specimens: Specimen[];
 }
