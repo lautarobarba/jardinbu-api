@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Species } from 'modules/species/species.entity';
+import { Species } from '../species/species.entity';
 import {
 	BaseEntity,
 	Column,

@@ -8,8 +8,8 @@ import {
 	UpdateDateColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { User } from 'modules/user/user.entity';
-import { Species } from 'modules/species/species.entity';
+import { User } from '../user/user.entity';
+import { Species } from '../species/species.entity';
 
 
 @Entity('pictures')

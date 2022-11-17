@@ -11,6 +11,7 @@ import { CronModule } from './modules/cron/cron.module';
 import { FamilyModule } from './modules/family/family.module';
 import { GenusModule } from './modules/genus/genus.module';
 import { SpeciesModule } from './modules/species/species.module';
+import { UtilsModule } from 'modules/utils/utils.module';
 // import { SpecimenModule } from './modules/specimen/specimen.module';
 
 
@@ -33,6 +34,7 @@ import { SpeciesModule } from './modules/species/species.module';
 		AuthModule,
 		UserModule,
 		// Utils
+		UtilsModule,
 		MailerModule,
 		CronModule,
 		// App modules 

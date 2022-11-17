@@ -12,7 +12,7 @@ import {
 import { Exclude } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Role } from '../auth/role.enum';
-import { Picture } from 'modules/utils/picture.entity';
+import { Picture } from '../utils/picture.entity';
 
 export enum Status {
 	ACTIVE = 'ACTIVE',

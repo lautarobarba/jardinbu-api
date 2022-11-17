@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Specimen } from 'modules/specimen/specimen.dto';
-import { Picture } from 'modules/utils/picture.entity';
+import { Specimen } from '../specimen/specimen.dto';
+import { Picture } from '../utils/picture.entity';
 import {
 	BaseEntity,
 	Column,
