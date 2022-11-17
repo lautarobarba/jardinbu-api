@@ -4,10 +4,17 @@ import { SpeciesService } from './species.service';
 import { SpeciesController } from './species.controller';
 import { Species } from './species.entity';
 import { GenusModule } from '../genus/genus.module';
+import { UserModule } from 'modules/user/user.module';
+import { UtilsModule } from 'modules/utils/utils.module';
 
 @Module({
-	imports: [TypeOrmModule.forFeature([Species]), GenusModule],
+	imports: [
+		TypeOrmModule.forFeature([Species]),
+		UserModule,
+		GenusModule,
+		UtilsModule
+	],
 	controllers: [SpeciesController],
 	providers: [SpeciesService],
 })
-export class SpeciesModule {}
+export class SpeciesModule { }

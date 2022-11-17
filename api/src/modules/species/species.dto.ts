@@ -1,32 +1,13 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Genus } from '../genus/genus.entity';
+import { Express } from 'express';
+import { FoliageType, Origin, Status } from './species.entity';
 
 export class CreateSpeciesDto {
 	@ApiProperty()
 	scientificName: string;
 
 	@ApiPropertyOptional()
-	description?: string;
-
-	@ApiPropertyOptional()
-	genusId: number;
-
-	@ApiPropertyOptional()
-	distribution?: string;
-
-	// @ApiPropertyOptional()
-	// example_img?: string;
-
-	// @ApiPropertyOptional()
-	// foliage_img?: string;
-}
-
-export class UpdateSpeciesDto {
-	@ApiProperty()
-	id: number;
-
-	@ApiPropertyOptional()
-	name?: string;
+	commonName?: string;
 
 	@ApiPropertyOptional()
 	description?: string;
@@ -35,11 +16,61 @@ export class UpdateSpeciesDto {
 	genusId?: number;
 
 	@ApiPropertyOptional()
-	distribution?: string;
+	status?: Status;
 
-	// @ApiPropertyOptional()
-	// example_img?: string;
+	@ApiPropertyOptional()
+	origin?: Origin;
 
-	// @ApiPropertyOptional()
-	// foliage_img?: string;
+	@ApiPropertyOptional({
+		type: 'string',
+		format: 'binary'
+	})
+	exampleImg?: Express.Multer.File;
+
+	@ApiPropertyOptional()
+	foliageType?: FoliageType;
+
+	@ApiPropertyOptional({
+		type: 'string',
+		format: 'binary'
+	})
+	foliageImg?: Express.Multer.File;
+}
+
+export class UpdateSpeciesDto {
+	@ApiProperty()
+	id: number;
+
+	@ApiProperty()
+	scientificName: string;
+
+	@ApiPropertyOptional()
+	commonName?: string;
+
+	@ApiPropertyOptional()
+	description?: string;
+
+	@ApiPropertyOptional()
+	genusId?: number;
+
+	@ApiPropertyOptional()
+	status?: Status;
+
+	@ApiPropertyOptional()
+	origin?: Origin;
+
+	@ApiPropertyOptional({
+		type: 'string',
+		format: 'binary'
+	})
+	exampleImg?: Express.Multer.File;
+
+	@ApiPropertyOptional()
+	foliageType?: FoliageType;
+
+	@ApiPropertyOptional({
+		type: 'string',
+		format: 'binary'
+	})
+	foliageImg?: Express.Multer.File;
 }

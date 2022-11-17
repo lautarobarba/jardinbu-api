@@ -21,6 +21,7 @@ export class FamilyService {
 	private readonly _logger = new Logger(FamilyService.name);
 
 	async create(createFamilyDto: CreateFamilyDto): Promise<Family> {
+		this._logger.debug('create()');
 		const { name, description } = createFamilyDto;
 		const timestamp: any = moment().format('YYYY-MM-DD HH:mm:ss');
 
@@ -47,7 +48,7 @@ export class FamilyService {
 		}
 
 		// Si no existe entonces creo uno nuevo
-		const family: Family = await this._familyRepository.create();
+		const family: Family = this._familyRepository.create();
 		family.name = name;
 		family.description = description;
 		family.createdAt = timestamp;
@@ -79,7 +80,8 @@ export class FamilyService {
 		return family;
 	}
 
-	async update(updateFamilyDto: UpdateFamilyDto) {
+	async update(updateFamilyDto: UpdateFamilyDto): Promise<Family> {
+		this._logger.debug('update()');
 		const { id, name, description } = updateFamilyDto;
 		const timestamp: any = moment().format('YYYY-MM-DD HH:mm:ss');
 
@@ -113,6 +115,7 @@ export class FamilyService {
 	}
 
 	async delete(id: number) {
+		this._logger.debug('delete()');
 		const timestamp: any = moment().format('YYYY-MM-DD HH:mm:ss');
 
 		const family: Family = await this._familyRepository.findOne({
