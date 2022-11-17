@@ -15,7 +15,7 @@ import {
 	UnauthorizedException,
 	Logger,
 } from '@nestjs/common';
-import { Response, Request, Express } from 'express';
+import { Response, Request } from 'express';
 import { ApiBearerAuth, ApiTags, ApiResponse, ApiConsumes, ApiBody } from '@nestjs/swagger';
 import { CreateUserDto } from 'modules/user/user.dto';
 import { User } from 'modules/user/user.entity';
