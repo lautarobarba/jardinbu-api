@@ -42,7 +42,7 @@ export class Genus extends BaseEntity {
 	@ApiProperty({
 		type: () => Family,
 	})
-	@ManyToOne(() => Family, family => family.genera)
+	@ManyToOne(() => Family, family => family.genera, { eager: true })
 	@JoinColumn({
 		name: 'family_id',
 	})

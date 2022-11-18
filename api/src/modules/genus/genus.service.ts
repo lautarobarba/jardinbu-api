@@ -73,7 +73,6 @@ export class GenusService {
 		return this._genusRepository.find({
 			where: { deleted: false },
 			order: { id: 'ASC' },
-			relations: ['family'],
 		});
 	}
 
@@ -81,7 +80,6 @@ export class GenusService {
 		this._logger.debug('findOne()');
 		const genus: Genus = await this._genusRepository.findOne({
 			where: { id },
-			relations: ['family'],
 		});
 
 		if (!genus) throw new NotFoundException();

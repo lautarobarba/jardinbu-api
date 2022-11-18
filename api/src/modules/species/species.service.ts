@@ -93,7 +93,6 @@ export class SpeciesService {
 		return this._speciesRepository.find({
 			where: { deleted: false },
 			order: { id: 'ASC' },
-			relations: ['genus'],
 		});
 	}
 
@@ -101,7 +100,6 @@ export class SpeciesService {
 		this._logger.debug('findOne()');
 		const species: Species = await this._speciesRepository.findOne({
 			where: { id },
-			relations: ['genus'],
 		});
 
 		if (!species) throw new NotFoundException();
