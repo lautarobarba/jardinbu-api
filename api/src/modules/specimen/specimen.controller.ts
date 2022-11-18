@@ -49,7 +49,7 @@ export class SpecimenController {
 	})
 	async create(@Body() createSpecimenDto: CreateSpecimenDto): Promise<Specimen> {
 		this._logger.debug('POST: /api/specimen');
-		return this._specimenService.create(CreateSpecimenDto);
+		return this._specimenService.create(createSpecimenDto);
 	}
 
 	@Get()
