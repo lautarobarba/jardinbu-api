@@ -52,7 +52,8 @@ export class SpeciesService {
 			exists.scientificName = scientificName;
 			exists.commonName = commonName;
 			exists.description = description;
-			exists.genus = await this._genusService.findOne(genusId);
+			if (genusId && (genusId !== 0)) exists.genus = await this._genusService.findOne(genusId);
+			else exists.genus = null;
 			exists.status = status;
 			exists.origin = origin;
 			exists.foliageType = foliageType;
@@ -71,7 +72,8 @@ export class SpeciesService {
 		species.scientificName = scientificName;
 		species.commonName = commonName;
 		species.description = description;
-		species.genus = await this._genusService.findOne(genusId);
+		if (genusId && (genusId !== 0)) species.genus = await this._genusService.findOne(genusId);
+		else species.genus = null;
 		species.status = status;
 		species.origin = origin;
 		species.foliageType = foliageType;
@@ -143,7 +145,8 @@ export class SpeciesService {
 		if (scientificName) species.scientificName = scientificName;
 		if (commonName) species.commonName = commonName;
 		if (description) species.description = description;
-		if (genusId) species.genus = await this._genusService.findOne(genusId);
+		if (genusId && (genusId !== 0)) species.genus = await this._genusService.findOne(genusId);
+		else species.genus = null;
 		if (status) species.status = status;
 		if (origin) species.origin = origin;
 		if (foliageType) species.foliageType = foliageType;

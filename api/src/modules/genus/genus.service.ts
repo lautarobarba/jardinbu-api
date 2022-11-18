@@ -39,7 +39,8 @@ export class GenusService {
 		// Si existe pero estaba borrado lógico entonces lo recupero
 		if (exists && exists.deleted) {
 			exists.description = description;
-			exists.family = await this._familyService.findOne(familyId);
+			if (familyId && (familyId !== 0)) exists.family = await this._familyService.findOne(familyId);
+			else exists.family = null;
 			exists.updatedAt = timestamp;
 			exists.deleted = false;
 
@@ -54,7 +55,8 @@ export class GenusService {
 		const genus: Genus = this._genusRepository.create();
 		genus.name = name;
 		genus.description = description;
-		genus.family = await this._familyService.findOne(familyId);
+		if (familyId && (familyId !== 0)) genus.family = await this._familyService.findOne(familyId);
+		else genus.family = null;
 		genus.createdAt = timestamp;
 		genus.updatedAt = timestamp;
 		genus.deleted = false;
@@ -111,7 +113,8 @@ export class GenusService {
 		// Si no hay problemas actualizo los atributos
 		if (name) genus.name = name;
 		if (description) genus.description = description;
-		if (familyId) genus.family = await this._familyService.findOne(familyId);
+		if (familyId && (familyId !== 0)) genus.family = await this._familyService.findOne(familyId);
+		else genus.family = null;
 		genus.updatedAt = timestamp;
 
 		// Controlo que el modelo no tenga errores antes de guardar

@@ -41,7 +41,8 @@ export class SpecimenService {
 		if (exists && exists.deleted) {
 			exists.name = name;
 			exists.description = description;
-			exists.species = await this._speciesService.findOne(speciesId);
+			if (speciesId && (speciesId !== 0)) exists.species = await this._speciesService.findOne(speciesId);
+			else exists.species = null;
 			exists.coordLat = coordLat;
 			exists.coordLon = coordLon;
 			exists.updatedAt = timestamp;
@@ -58,7 +59,8 @@ export class SpecimenService {
 		const specimen: Specimen = this._specimenRepository.create();
 		specimen.name = name;
 		specimen.description = description;
-		specimen.species = await this._speciesService.findOne(speciesId);
+		if (speciesId && (speciesId !== 0)) specimen.species = await this._speciesService.findOne(speciesId);
+		else specimen.species = null;
 		specimen.coordLat = coordLat;
 		specimen.coordLon = coordLon;
 		specimen.createdAt = timestamp;
@@ -124,7 +126,8 @@ export class SpecimenService {
 		// Si no hay problemas actualizo los atributos
 		if (name) specimen.name = name;
 		if (description) specimen.description = description;
-		if (speciesId) specimen.species = await this._speciesService.findOne(speciesId);
+		if (speciesId && (speciesId !== 0)) specimen.species = await this._speciesService.findOne(speciesId);
+		else specimen.species = null;
 		if (coordLat) specimen.coordLat = coordLat;
 		if (coordLon) specimen.coordLon = coordLon;
 		specimen.updatedAt = timestamp;

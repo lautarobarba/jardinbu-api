@@ -8,8 +8,8 @@ export class CreateSpecimenDto {
 	@ApiPropertyOptional()
 	description?: string;
 
-	@ApiPropertyOptional()
-	speciesId?: number;
+	@ApiProperty()
+	speciesId: number;
 
 	@ApiPropertyOptional()
 	coordLat?: string;
