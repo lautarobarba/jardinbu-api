@@ -42,7 +42,7 @@ export class Specimen extends BaseEntity {
 	@ApiProperty({
 		type: () => Species,
 	})
-	@ManyToOne(() => Species, species => species.specimens)
+	@ManyToOne(() => Species, species => species.specimens, { eager: true })
 	@JoinColumn({
 		name: 'species_id',
 	})

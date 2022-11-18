@@ -79,7 +79,6 @@ export class SpecimenService {
 		return this._specimenRepository.find({
 			where: { deleted: false },
 			order: { id: 'ASC' },
-			relations: ['species'],
 		});
 	}
 
@@ -87,7 +86,6 @@ export class SpecimenService {
 		this._logger.debug('findOne()');
 		const specimen: Specimen = await this._specimenRepository.findOne({
 			where: { id },
-			relations: ['genus'],
 		});
 
 		if (!specimen) throw new NotFoundException();
