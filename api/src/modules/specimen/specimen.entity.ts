@@ -7,10 +7,12 @@ import {
 	Entity,
 	JoinColumn,
 	ManyToOne,
+	OneToMany,
 	OneToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm';
+import { QRCode } from '../qr-code/qr-code.entity';
 
 
 @Entity('specimens')
@@ -77,4 +79,8 @@ export class Specimen extends BaseEntity {
 	@ApiProperty()
 	@Column({ name: 'deleted', type: 'boolean', default: false })
 	deleted: boolean;
+
+	// Relation
+	@OneToMany(() => QRCode, qrCode => qrCode.specimen)
+	qrCodes: QRCode[];
 }

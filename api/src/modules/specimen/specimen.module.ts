@@ -15,6 +15,7 @@ import { UtilsModule } from 'modules/utils/utils.module';
     UtilsModule
   ],
   controllers: [SpecimenController],
-  providers: [SpecimenService]
+  providers: [SpecimenService],
+  exports: [SpecimenService],
 })
 export class SpecimenModule { }

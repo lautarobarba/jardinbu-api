@@ -13,6 +13,7 @@ import { GenusModule } from './modules/genus/genus.module';
 import { SpeciesModule } from './modules/species/species.module';
 import { UtilsModule } from './modules/utils/utils.module';
 import { SpecimenModule } from './modules/specimen/specimen.module';
+import { QRCodeModule } from './modules/qr-code/qr-code.module';
 
 
 @Module({
@@ -42,6 +43,7 @@ import { SpecimenModule } from './modules/specimen/specimen.module';
 		GenusModule,
 		SpeciesModule,
 		SpecimenModule,
+		QRCodeModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],
