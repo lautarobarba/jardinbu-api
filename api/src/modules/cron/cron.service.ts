@@ -3,6 +3,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { Job, Queue } from 'bull';
 import { UserService } from 'modules/user/user.service';
+import { UtilsService } from 'modules/utils/utils.service';
 
 @Processor('cron')
 @Injectable()
@@ -11,6 +12,7 @@ export class CronService {
 		@InjectQueue('cron')
 		private readonly _cronQueue: Queue,
 		private readonly _userService: UserService,
+		private readonly _utilsService: UtilsService,
 	) { }
 	private readonly _logger = new Logger(CronService.name);
 
@@ -69,6 +71,6 @@ export class CronService {
 	@Process('handleDeleteProfilePictures')
 	async handleDeleteProfilePictures(job: Job) {
 		this._logger.debug('handleDeleteProfilePictures()');
-		// await this._userService.deleteUselessProfilePictures();
+		await this._utilsService.deleteUselessProfilePictures();
 	}
 }

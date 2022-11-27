@@ -166,7 +166,7 @@ export class UserController {
 	}
 
 	@Get('profile-picture/:id')
-	@UseGuards(IsEmailConfirmedGuard())
+	// @UseGuards(IsEmailConfirmedGuard())
 	@UseInterceptors(ClassSerializerInterceptor)
 	@ApiBearerAuth()
 	@ApiResponse({
@@ -185,14 +185,13 @@ export class UserController {
 		@Param('id') id: number
 	): Promise<StreamableFile> {
 		this._logger.debug('GET: /api/user/profile-picture/:id');
-		// const profilePicture: Picture = await this._userService.getProfilePicture(id);
+		const profilePicture: Picture = await this._userService.getProfilePicture(id);
 
-		// const stream = createReadStream(join(process.cwd(), profilePicture.path));
-		// response.set({
-		// 	'Content-Disposition': `inline; filename="${profilePicture.fileName}"`,
-		// 	'Content-Type': profilePicture.mimetype
-		// })
-		// return new StreamableFile(stream);
-		return new StreamableFile(null);
+		const stream = createReadStream(join(process.cwd(), profilePicture.path));
+		response.set({
+			'Content-Disposition': `inline; filename="${profilePicture.fileName}"`,
+			'Content-Type': profilePicture.mimetype
+		})
+		return new StreamableFile(stream);
 	}
 }

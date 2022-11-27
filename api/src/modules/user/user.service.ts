@@ -11,6 +11,7 @@ import { validate } from 'class-validator';
 import { Role } from '../auth/role.enum';
 import { IJWTPayload } from 'modules/auth/jwt-payload.interface';
 import { Picture } from 'modules/utils/picture.entity';
+import { UtilsService } from 'modules/utils/utils.service';
 
 
 @Injectable()
@@ -18,8 +19,7 @@ export class UserService {
 	constructor(
 		@InjectRepository(User)
 		private readonly _userRepository: Repository<User>,
-		// @InjectRepository(Picture)
-		// private readonly _profilePictureRepository: Repository<Picture>
+		private readonly _utilsService: UtilsService
 	) { }
 	private readonly _logger = new Logger(UserService.name);
 
@@ -148,30 +148,14 @@ export class UserService {
 			// Si recibí una nueva foto de perfil
 			// 1° Elimino la vieja
 			if (user.profilePicture) {
-				// const oldProfilePicture = await this._profilePictureRepository.findOne({
-				// 	where: { id: user.profilePicture.id },
-				// });
-				// oldProfilePicture.deleted = true;
-				// oldProfilePicture.updatedAt = timestamp;
-				// await this._profilePictureRepository.save(oldProfilePicture);
+				await this._utilsService.deletePicture(user.profilePicture.id);
 			}
 
-			// 2° Voy a mover la imagen desde la carpeta temporal donde la recibí
-			const imgSource = updateUserDto.profilePicture.path;
-			const imgDestination = imgSource.replace('temp', 'profile-pictures');
-			mv(imgSource, imgDestination, { mkdirp: true }, (err: Error) => {
-				console.log(err);
-			});
+			// 2° La guardo en la DB
+			const newProfilePicture: Picture = await await this._utilsService.saveProfilePicture(updateUserDto.profilePicture);
 
-			// // 3° La guardo en la DB
-			// const newProfilePicture: Picture = this._profilePictureRepository.create();
-			// newProfilePicture.fileName = updateUserDto.profilePicture.filename;
-			// newProfilePicture.path = imgDestination;
-			// newProfilePicture.mimetype = updateUserDto.profilePicture.mimetype;
-			// newProfilePicture.originalName = updateUserDto.profilePicture.originalname;
-
-			// // 4° Asigno la nueva al usuario
-			// user.profilePicture = await this._profilePictureRepository.save(newProfilePicture);
+			// 3° Asigno la nueva foto al usuario
+			user.profilePicture = newProfilePicture;
 		}
 
 		// Controlo que el modelo no tenga errores antes de guardar
@@ -251,32 +235,8 @@ export class UserService {
 		return user;
 	}
 
-	// async getProfilePicture(id: number): Promise<Picture> {
-	// 	this._logger.debug('getProfilePicture()');
-	// 	const profilePicture: Picture = await this._profilePictureRepository.findOne({
-	// 		where: { id },
-	// 	});
-
-	// 	if (!profilePicture) throw new NotFoundException('Error: Not Found');
-
-	// 	return profilePicture;
-	// }
-
-	// async deleteUselessProfilePictures() {
-	// 	this._logger.debug('deleteUselessProfilePictures()');
-	// 	const profilePictures: Picture[] = await this._profilePictureRepository.find({
-	// 		where: { deleted: true, fileDeleted: false },
-	// 	});
-
-	// 	// console.log(profilePictures);
-	// 	profilePictures.forEach(async (pp) => {
-	// 		const timestamp: any = moment().format('YYYY-MM-DD HH:mm:ss');
-	// 		fs.unlink(pp.path, (err: Error) => {
-	// 			if (err) console.log(err);
-	// 		});
-	// 		pp.fileDeleted = true;
-	// 		pp.updatedAt = timestamp;
-	// 		await this._profilePictureRepository.save(pp);
-	// 	});
-	// }
+	async getProfilePicture(id: number): Promise<Picture> {
+		this._logger.debug('getProfilePicture()');
+		return this._utilsService.findOnePicture(id);
+	}
 }
