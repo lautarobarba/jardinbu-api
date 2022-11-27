@@ -168,7 +168,7 @@ export class UserController {
 	@Get('profile-picture/:id')
 	// @UseGuards(IsEmailConfirmedGuard())
 	@UseInterceptors(ClassSerializerInterceptor)
-	@ApiBearerAuth()
+	// @ApiBearerAuth()
 	@ApiResponse({
 		status: HttpStatus.OK,
 	})
@@ -176,10 +176,10 @@ export class UserController {
 		status: HttpStatus.NOT_FOUND,
 		description: 'Error: Not Found',
 	})
-	@ApiResponse({
-		status: HttpStatus.UNAUTHORIZED,
-		description: 'Error: Unauthorized',
-	})
+	// @ApiResponse({
+	// 	status: HttpStatus.UNAUTHORIZED,
+	// 	description: 'Error: Unauthorized',
+	// })
 	async getProfilePicture(
 		@Res({ passthrough: true }) response: Response,
 		@Param('id') id: number
