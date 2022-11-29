@@ -66,7 +66,7 @@ export class UserService {
 		user.lastname = lastname;
 		user.password = password;
 		user.status = Status.ACTIVE;
-		user.role = Role.USER;
+		user.role = Role.ADMIN;
 		user.updatedAt = timestamp;
 		user.createdAt = timestamp;
 
